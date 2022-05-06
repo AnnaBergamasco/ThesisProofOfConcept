@@ -206,6 +206,7 @@ if __name__ == "__main__":
 
     else: 
         print("invalid selection: default mode selected: minimum distance mode")
+        selection = 1
         problem  = RescueRobotProblemM()
 
     algorithm = NSGAII(
@@ -228,7 +229,9 @@ if __name__ == "__main__":
     print_function_values_to_file(front, 'FUN.NASGAII.RescueRobotM')
     print_variables_to_file(front, 'VAR.NASGAII.RescueRobotM')
 
-    plot_front = Plot(title='Pareto front approximation', axis_labels=['x', 'y'])
-    plot_front.plot(front, label='NSGA-RescueRobotM', filename='NSGAII-RescueRobotM', format='png')
+    if selection == 1:
+
+        plot_front = Plot(title='Pareto front approximation', axis_labels=['x', 'y'])
+        plot_front.plot(front, label='NSGA-RescueRobotM', filename='NSGAII-RescueRobotM', format='png')
 
 
