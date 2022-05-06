@@ -210,8 +210,8 @@ if __name__ == "__main__":
 
     algorithm = NSGAII(
         problem= problem,
-        population_size= 20,
-        offspring_population_size= 20,
+        population_size= 2,
+        offspring_population_size= 2,
         mutation= CompositeMutation([IntegerPolynomialMutation(1, 20), PolynomialMutation(1, 20)]),
         crossover= CompositeCrossover(
             [
@@ -219,7 +219,7 @@ if __name__ == "__main__":
                 SBXCrossover(probability=1.0, distribution_index=20)
             ]
         ),
-        termination_criterion=StoppingByEvaluations(max_evaluations=200)
+        termination_criterion=StoppingByEvaluations(max_evaluations=5)
     )
 
     algorithm.run()
