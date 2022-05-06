@@ -263,4 +263,3 @@ def run_simulator(vars: List[Tuple[str, float]]) -> str:
 
 
 # example of invocation
-run_simulator([('battery', 100.0), ('lights', 10000.0)])
