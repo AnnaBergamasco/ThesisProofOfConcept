@@ -220,7 +220,7 @@ if __name__ == "__main__":
                 SBXCrossover(probability=1.0, distribution_index=20)
             ]
         ),
-        termination_criterion=StoppingByEvaluations(max_evaluations=5)
+        termination_criterion=StoppingByEvaluations(max_evaluations=10)
     )
 
     algorithm.run()
