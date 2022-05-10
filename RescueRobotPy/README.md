@@ -5,13 +5,13 @@ Here follo the explaination of each python script.
 
 ## RescueRobotGA.py
 
-Is the `JMetalPy` implementation. It contains two implementations of the problem, one that uses the minimum distance fitness function: for each uncertain zone of the model there is one objective to compute, and one that uses the all distances fitness function: each uncertain probability corresponds to one objective.
+Is the `JMetalPy` implementation. It contains two implementations of the problem, one that uses the minimum distance fitness function: for each uncertain zone of the model there is one objective to compute, and one that uses the all distances fitness function: each uncertain probability corresponds to one objective (run with the "-a" option).
 
 The script also contains a main funciton that sets the algorithm's (NSGA-II) parameters and let the user choose which of the two policies to use.
 
 ## RescueRobotPymoo.py
 
-Is the `Pymoo` implementation. It contains two implementations of the problem, one that uses the minimum distance fitness function and the other that uses all distances fitness function.
+Is the `Pymoo` implementation. It contains two implementations of the problem, one that uses the minimum distance fitness function and the other that uses all distances fitness function (run with the "-a" option).
 
 It also contains a main function that sets the algorithm (NSGA-II) and runs it.
 

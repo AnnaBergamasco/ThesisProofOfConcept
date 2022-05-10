@@ -9,6 +9,7 @@ from pymoo.factory import get_termination
 from pymoo.optimize import minimize
 import matplotlib.pyplot as plt
 import sys
+from pymoo.visualization.pcp import PCP
 
 
 mask = ["int", "real"]
@@ -147,18 +148,22 @@ if __name__ == "__main__":
 
     X = res.X
     F = res.F
+
+    xl, xu = problem.bounds()
+    plt.figure(figsize=(7, 5))
+    plt.scatter(X[:, 0], X[:, 1], s=30, facecolors='none', edgecolors='r')
+    plt.xlim(xl[0], xu[0])
+    plt.ylim(xl[1], xu[1])
+    plt.title("Design Space")
+    plt.show()
     
     if selection == 1:
-
-        xl, xu = problem.bounds()
-        plt.figure(figsize=(7, 5))
-        plt.scatter(X[:, 0], X[:, 1], s=30, facecolors='none', edgecolors='r')
-        plt.xlim(xl[0], xu[0])
-        plt.ylim(xl[1], xu[1])
-        plt.title("Design Space")
-        plt.show()
 
         plt.figure(figsize=(7, 5))
         plt.scatter(F[:, 0], F[:, 1], s=30, facecolors='none', edgecolors='blue')
         plt.title("Objective Space")
         plt.show()
+
+    else:
+
+        PCP().add(F).show()

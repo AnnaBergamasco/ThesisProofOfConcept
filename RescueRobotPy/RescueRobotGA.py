@@ -11,7 +11,7 @@ from jmetal.operator.mutation import CompositeMutation
 from jmetal.problem.multiobjective.unconstrained import MixedIntegerFloatProblem
 from jmetal.util.termination_criterion import StoppingByEvaluations
 from jmetal.util.comparator import DominanceComparator
-from jmetal.lab.visualization import Plot
+from jmetal.lab.visualization import InteractivePlot
 from xml.etree.ElementTree import PI
 from jmetal.util.solution import get_non_dominated_solutions, print_function_values_to_file, print_variables_to_file
 import sys, getopt
@@ -223,9 +223,9 @@ if __name__ == "__main__":
     print_function_values_to_file(front, 'FUN.NASGAII.RescueRobotM')
     print_variables_to_file(front, 'VAR.NASGAII.RescueRobotM')
 
-    if selection == 1:
+    
 
-        plot_front = Plot(title='Pareto front approximation', axis_labels=['x', 'y'])
-        plot_front.plot(front, label='NSGA-RescueRobotM', filename='NSGAII-RescueRobotM', format='png')
+    plot_front = InteractivePlot(title='Pareto front approximation', axis_labels=['x', 'y'])
+    plot_front.plot(front, label='NSGA-RescueRobotM', filename='NSGAII-RescueRobotM', format='png')
 
 
