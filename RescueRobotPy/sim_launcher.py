@@ -253,13 +253,13 @@ def run_simulator(vars: List[Tuple[str, float]]) -> str:
         os.remove(sim_out_file)
     
     os.system(gradle_build)
-    boh = os.popen(gradle_run).read()
+    log = os.popen(gradle_run).read()
 
     shutil.copy2(model_back, model)
 
     os.chdir(origin)
 
-    return boh
+    return log
 
 
 # example of invocation

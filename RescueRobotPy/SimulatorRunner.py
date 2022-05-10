@@ -17,8 +17,9 @@ class SimulatorRunner():
 
         self.t1Probabilities = [0,0,0]
         self.t2Probabilities = [0,0,0]
-        self.t1Bounds = [0.0, 0.02, 0.95, 0.97, 0.02, 0.05]
-        self.t2Bounds = [0.0, 0.015, 0.0, 0.015, 0.98, 1.0]
+        self.t1Bounds = [0.0, 0.05, 0.95, 1.0, 0.00, 0.05]
+        self.t2Bounds = [0.0, 0.05, 0.0, 0.05, 0.97, 1.0]
+        # file rectangles
 
     def runSimulator(self) -> None:
 

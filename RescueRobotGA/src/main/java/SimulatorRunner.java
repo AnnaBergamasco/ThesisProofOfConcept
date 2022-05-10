@@ -22,18 +22,18 @@ public class SimulatorRunner {
         this.light = light;
         this.t1Bounds = new ArrayList<Double>(){{
             add(0.0);
-            add(0.02);
+            add(0.05);
             add(0.95);
-            add(0.97);
-            add(0.02);
+            add(1.0);
+            add(0.00);
             add(0.05);
         }};
         this.t2Bounds = new ArrayList<Double>() {{
            add(0.0);
-           add(0.015);
+           add(0.05);
            add(0.0);
-           add(0.015);
-           add(0.98);
+           add(0.05);
+           add(0.97);
            add(1.0);
         }};
         this.t1Probabilities = new ArrayList<>();

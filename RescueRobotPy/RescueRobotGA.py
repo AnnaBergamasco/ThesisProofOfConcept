@@ -14,6 +14,8 @@ from jmetal.util.comparator import DominanceComparator
 from jmetal.lab.visualization import Plot
 from xml.etree.ElementTree import PI
 from jmetal.util.solution import get_non_dominated_solutions, print_function_values_to_file, print_variables_to_file
+import sys, getopt
+
 
 class RescueRobotProblemM(Problem):
 
@@ -182,32 +184,24 @@ class RescueRobotProblemA(Problem):
 
 if __name__ == "__main__":
 
+    
 
-    print("")
-    print("WELCOME:")
-    print("")
-    print("Please select algorithm mode:")
-    print("1. minimum distance mode")
-    print("2. all distances mode")
-    print("")
+    selection = 1
 
-    selection = int(input())
+    opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
+    if "-a" in opts:
+        selection = 2
 
-    print("")
-
+    
 
     if selection == 1:
-        print("Selected mode: minimum distance mode")
+        print("MODE: minimum distance mode")
         problem  = RescueRobotProblemM()
     
-    elif selection == 2:
-        print("selected mode: all distances mode")
+    else:
+        print("MODE: all distances mode")
         problem = RescueRobotProblemA()
 
-    else: 
-        print("invalid selection: default mode selected: minimum distance mode")
-        selection = 1
-        problem  = RescueRobotProblemM()
 
     algorithm = NSGAII(
         problem= problem,

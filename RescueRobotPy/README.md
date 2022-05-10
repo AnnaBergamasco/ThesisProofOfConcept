@@ -11,7 +11,9 @@ The script also contains a main funciton that sets the algorithm's (NSGA-II) par
 
 ## RescueRobotPymoo.py
 
-Is the `Pymoo` implementation. It uses the minimum distance fitness function. It contains the implementation of the problem as well as a main function that sets the algorithm (NSGA-II) and runs it.
+Is the `Pymoo` implementation. It contains two implementations of the problem, one that uses the minimum distance fitness function and the other that uses all distances fitness function.
+
+It also contains a main function that sets the algorithm (NSGA-II) and runs it.
 
 ## sim_launcher.py
 
