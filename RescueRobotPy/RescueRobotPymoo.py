@@ -10,6 +10,8 @@ from pymoo.optimize import minimize
 import matplotlib.pyplot as plt
 import sys
 from pymoo.visualization.pcp import PCP
+from pymoo.core.problem import starmap_parallelized_eval
+from multiprocessing.pool import ThreadPool
 
 
 mask = ["int", "real"]
@@ -31,7 +33,7 @@ mutation = MixedVariableMutation(mask, {
 
 class RescueRobotProblemM(ElementwiseProblem):
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super().__init__(n_var= 2, n_obj = 2, n_constr = 0, xl = [0, 10.0], xu = [100, 10000.0])
         self.evaluationNumber = 0
 
@@ -114,11 +116,12 @@ if __name__ == "__main__":
     if "-a" in opts:
         selection = 2
 
-    
+    n_threads = 4
+    pool = ThreadPool(n_threads)
 
     if selection == 1:
         print("MODe: minimum distance mode")
-        problem  = RescueRobotProblemM()
+        problem  = RescueRobotProblemM(runner=pool.starmap, func_eval=starmap_parallelized_eval)
     
     else:
         print("MODE: all distances mode")
@@ -135,7 +138,7 @@ if __name__ == "__main__":
         eliminate_duplicates= True
     )
 
-    termination = get_termination("n_gen", 5)
+    termination = get_termination("n_gen", 8)
 
     res = minimize(
         problem,
@@ -145,6 +148,9 @@ if __name__ == "__main__":
         save_history= True,
         verbose= True
     )
+
+    print('Threads:', res.exec_time)
+    pool.close()
 
     X = res.X
     F = res.F
