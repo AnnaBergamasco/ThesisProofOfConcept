@@ -12,6 +12,7 @@ import sys
 from pymoo.visualization.pcp import PCP
 from pymoo.core.problem import starmap_parallelized_eval
 from multiprocessing.pool import ThreadPool
+from pymoo.algorithms.moo.nsga3 import NSGA3
 
 
 mask = ["int", "real"]
@@ -33,7 +34,7 @@ mutation = MixedVariableMutation(mask, {
 
 class RescueRobotProblemM(ElementwiseProblem):
 
-    def __init__(self, **kwargs):
+    def __init__(self):
         super().__init__(n_var= 2, n_obj = 2, n_constr = 0, xl = [0, 10.0], xu = [100, 10000.0])
         self.evaluationNumber = 0
 
@@ -116,28 +117,28 @@ if __name__ == "__main__":
     if "-a" in opts:
         selection = 2
 
-    n_threads = 4
-    pool = ThreadPool(n_threads)
 
     if selection == 1:
         print("MODe: minimum distance mode")
-        problem  = RescueRobotProblemM(runner=pool.starmap, func_eval=starmap_parallelized_eval)
-    
+        problem  = RescueRobotProblemM()
+        algorithm = NSGA2(
+            pop_size= 2,
+            n_offsprings= None,
+            sampling= sampling,
+            crossover= crossover,
+            mutation= mutation,
+            eliminate_duplicates= True
+        )
+
+
     else:
         print("MODE: all distances mode")
         problem = RescueRobotProblemA()
+        algorithm = NSGA3()
     
     
 
-    algorithm = NSGA2(
-        pop_size= 2,
-        n_offsprings= None,
-        sampling= sampling,
-        crossover= crossover,
-        mutation= mutation,
-        eliminate_duplicates= True
-    )
-
+    
     termination = get_termination("n_gen", 8)
 
     res = minimize(
@@ -149,8 +150,6 @@ if __name__ == "__main__":
         verbose= True
     )
 
-    print('Threads:', res.exec_time)
-    pool.close()
 
     X = res.X
     F = res.F
