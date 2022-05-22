@@ -1,7 +1,7 @@
 import numpy as np
 from pymoo.core.problem import ElementwiseProblem
 from SimulatorRunner import SimulatorRunner
-from pymoo.factory import get_sampling, get_crossover, get_mutation
+from pymoo.factory import get_sampling, get_crossover, get_mutation, get_reference_directions
 from pymoo.operators.mixed_variable_operator import MixedVariableSampling, MixedVariableMutation, MixedVariableCrossover
 from pymoo.factory import get_sampling, get_crossover, get_mutation
 from pymoo.algorithms.moo.nsga2 import NSGA2
@@ -13,6 +13,7 @@ from pymoo.visualization.pcp import PCP
 from pymoo.core.problem import starmap_parallelized_eval
 from multiprocessing.pool import ThreadPool
 from pymoo.algorithms.moo.nsga3 import NSGA3
+from pymoo.algorithms.moo.moead import MOEAD, ParallelMOEAD
 
 
 mask = ["int", "real"]
@@ -117,10 +118,24 @@ if __name__ == "__main__":
     if "-a" in opts:
         selection = 2
 
-
     if selection == 1:
-        print("MODe: minimum distance mode")
+        print("MODE: minimum distance mode")
         problem  = RescueRobotProblemM()
+        numb_obj = 2
+        
+
+
+    else:
+        print("MODE: all distances mode")
+        problem = RescueRobotProblemA()
+        numb_obj = 6
+        
+    
+
+    alg_name = sys.argv[1]
+    
+    if alg_name == "NSGA2":
+        print("selected algorithm: NSGA-II")
         algorithm = NSGA2(
             pop_size= 2,
             n_offsprings= None,
@@ -129,13 +144,43 @@ if __name__ == "__main__":
             mutation= mutation,
             eliminate_duplicates= True
         )
-
-
-    else:
-        print("MODE: all distances mode")
-        problem = RescueRobotProblemA()
-        algorithm = NSGA3()
     
+    elif alg_name == "NSGA3":
+        print("selected algorithm: NSGA-III")
+        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=12)
+        algorithm = NSGA3(
+            pop_size= 2,
+            n_offsprings= None,
+            sampling= sampling,
+            crossover= crossover,
+            mutation= mutation,
+            eliminate_duplicates= True,
+            ref_dirs= ref_dirs
+        )
+
+    elif alg_name == "MOEAD":
+        print("selected algorithm: MOEA-D")
+        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=12)
+        algorithm = MOEAD(
+            n_offsprings= None,
+            sampling= sampling,
+            crossover= crossover,
+            mutation= mutation,
+            ref_dirs= ref_dirs,
+            n_neighbors= 2,
+            prob_neighbor_mating= 0.7
+        )
+    
+    else:
+        print("selected algorithm: invalid. Default algorithm (NSGA-II) applied.")
+        algorithm = NSGA2(
+            pop_size= 2,
+            n_offsprings= None,
+            sampling= sampling,
+            crossover= crossover,
+            mutation= mutation,
+            eliminate_duplicates= True
+        )
     
 
     
