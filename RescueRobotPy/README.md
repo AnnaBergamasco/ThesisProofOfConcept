@@ -3,6 +3,8 @@
 This is the python implementation, using both `JMetalPy` and `Pymoo`, the algorithm used is NSGA-II.
 Here follow the explaination of each python script.
 
+For the implementations to work mbt_module_dir has to be changed to the local directory of the `MBT-module` at line 11 of the `sim_launcher.py` file.
+
 
 ## RescueRobotGA.py
 
@@ -12,7 +14,7 @@ The script also contains a main funciton that sets the algorithm's (NSGA-II) par
 
 To run the script install the `JMetalPy` library (instructions at [https://jmetal.github.io/jMetalPy/index.html](https://jmetal.github.io/jMetalPy/index.html)) and then use the command:
 ```
-python3 RescueRobotGA.py
+python3 RescueRobotGA.py [-a]
 ```
 The option `-a` enables the all distances fitness mode.
 
@@ -24,9 +26,10 @@ It also contains a main function that sets which algorithm to use and its parame
 
 To run the script install the `Pymoo` library (instructions at [https://pymoo.org/installation.html](https://pymoo.org/installation.html)) and then use the command:
 ```
-python3 RescueRobotPymoo.py [algorithm name]
+python3 RescueRobotPymoo.py [algorithm name] [-a]
 ```
 Where the algorithm name can be "NSGA2", "NSGA3" and "MOEAD".
+
 The option `-a` enables the all distances fitness mode.
 
 

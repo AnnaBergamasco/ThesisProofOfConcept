@@ -167,7 +167,6 @@ if __name__ == "__main__":
             crossover= crossover,
             mutation= mutation,
             ref_dirs= ref_dirs,
-            n_neighbors= 2,
             prob_neighbor_mating= 0.7
         )
     
