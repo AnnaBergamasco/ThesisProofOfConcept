@@ -160,7 +160,7 @@ if __name__ == "__main__":
 
     elif alg_name == "MOEAD":
         print("selected algorithm: MOEA-D")
-        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=12)
+        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=2)
         algorithm = MOEAD(
             n_offsprings= None,
             sampling= sampling,
