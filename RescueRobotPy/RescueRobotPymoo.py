@@ -14,6 +14,8 @@ from pymoo.core.problem import starmap_parallelized_eval
 from multiprocessing.pool import ThreadPool
 from pymoo.algorithms.moo.nsga3 import NSGA3
 from pymoo.algorithms.moo.moead import MOEAD, ParallelMOEAD
+from pymoo.visualization.heatmap import Heatmap
+from pymoo.visualization.petal import Petal
 
 
 mask = ["int", "real"]
@@ -216,3 +218,5 @@ if __name__ == "__main__":
     else:
 
         PCP().add(F).show()
+        Heatmap().add(F).show()
+        Petal(bounds=[0, 1]).add(F).show()
