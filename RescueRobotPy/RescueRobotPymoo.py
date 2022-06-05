@@ -14,8 +14,10 @@ from pymoo.core.problem import starmap_parallelized_eval
 from multiprocessing.pool import ThreadPool
 from pymoo.algorithms.moo.nsga3 import NSGA3
 from pymoo.algorithms.moo.moead import MOEAD, ParallelMOEAD
+from pymoo.algorithms.moo.age import AGEMOEA
 from pymoo.visualization.heatmap import Heatmap
 from pymoo.visualization.petal import Petal
+from pymoo.algorithms.moo.unsga3 import UNSGA3
 
 
 mask = ["int", "real"]
@@ -143,8 +145,7 @@ if __name__ == "__main__":
             n_offsprings= None,
             sampling= sampling,
             crossover= crossover,
-            mutation= mutation,
-            eliminate_duplicates= True
+            mutation= mutation
         )
     
     elif alg_name == "NSGA3":
@@ -156,7 +157,18 @@ if __name__ == "__main__":
             sampling= sampling,
             crossover= crossover,
             mutation= mutation,
-            eliminate_duplicates= True,
+            ref_dirs= ref_dirs
+        )
+    
+    elif alg_name == "UNSGA3":
+        print("selected algorithm: U-NSGA-III")
+        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=12)
+        algorithm = UNSGA3(
+            pop_size= 2,
+            n_offsprings= None,
+            sampling= sampling,
+            crossover= crossover,
+            mutation= mutation,
             ref_dirs= ref_dirs
         )
 
@@ -169,7 +181,18 @@ if __name__ == "__main__":
             crossover= crossover,
             mutation= mutation,
             ref_dirs= ref_dirs,
+            n_neighbors=2,
             prob_neighbor_mating= 0.7
+        )
+
+    elif alg_name == "AGEMOEA":
+        print("selected algorithm: AGE-MOEA")
+        algorithm = AGEMOEA(
+            n_offsprings= None,
+            sampling= sampling,
+            crossover= crossover,
+            mutation= mutation,
+            pop_size= 2
         )
     
     else:
@@ -179,8 +202,7 @@ if __name__ == "__main__":
             n_offsprings= None,
             sampling= sampling,
             crossover= crossover,
-            mutation= mutation,
-            eliminate_duplicates= True
+            mutation= mutation
         )
     
 
