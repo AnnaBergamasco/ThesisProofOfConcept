@@ -45,25 +45,40 @@ Each rule is a 5-tuple [arc, function, action, lowerbound, upperbound], where:
         maximum offset value
 """
 
-#k = 2.0
-#t = 2.0
-#ff = "( 1/( factorial(k-1) * pow(t, k) ) ) * pow(x, k-1) * exp(-(x/t))"
-fb1 = "0.0002 * (100 - x)"
-fb2 = "(0.0002 * (100 - x)) / 2"
-fl1 = "0.0000025 * x"
-fl2 = "(0.0000025 * x) /2"
+# battery
+fb1 = "0.0001 * (100 - x)"
+fb2 = "(" + fb1 + ") / 2"
+# quality
+fq1 = "0.001 * (10 - x)"
+fq2 = "(" + fq1 + ") / 2"
+# lights
+fl1 = "((x-10) / ((x-10) + 100)) * 0.025"
+fl2 = "(" + fl1 + ") / 2"
+# obstacleSize
+fs1 = "0.001 * x * 4"
+fs2 = "(" + fs1 + ") / 2"
 
 rules = {
     'battery' : [
-        ['S0 e1 S1', fb2, Action.INCREASE, 0.0, 0.02],
-        ['S0 e1 S2', fb1, Action.DECREASE, 0.0, 0.02],
-        ['S0 e1 S6', fb2, Action.INCREASE, 0.0, 0.02],
+        ['S0 e1 S1', fb2, Action.INCREASE, 0.0, 0.01],
+        ['S0 e1 S2', fb1, Action.DECREASE, 0.0, 0.01],
+        ['S0 e1 S6', fb2, Action.INCREASE, 0.0, 0.01],
         ['S3 e1 S5', fb1, Action.INCREASE, 0.0, 0.01],
         ['S3 e1 S4', fb1, Action.DECREASE, 0.0, 0.01],
     ],
+    'quality' : [
+        ['S0 e1 S1', fq2, Action.INCREASE, 0.0, 0.005],
+        ['S0 e1 S2', fq1, Action.DECREASE, 0.0, 0.005],
+        ['S0 e1 S6', fq2, Action.INCREASE, 0.0, 0.005]
+    ],
     'lights' : [
-        ['S0 e1 S2', fl1, Action.INCREASE, 0.0, 0.02],
-        ['S0 e1 S6', fl1, Action.DECREASE, 0.0, 0.02]
+        ['S0 e1 S2', fl1, Action.INCREASE, 0.0, 0.025],
+        ['S0 e1 S6', fl1, Action.DECREASE, 0.0, 0.025]
+    ],
+    'obstacleSize' : [
+        ['S0 e1 S1', fs2, Action.DECREASE, 0.0, 0.005],
+        ['S0 e1 S2', fs1, Action.INCREASE, 0.0, 0.005],
+        ['S0 e1 S6', fs2, Action.DECREASE, 0.0, 0.005]
     ]
 }
 
@@ -251,7 +266,7 @@ def run_simulator(vars: List[Tuple[str, float]]) -> str:
     f.close()
     if os.path.exists(sim_out_file):
         os.remove(sim_out_file)
-    
+
     os.system(gradle_build)
     log = os.popen(gradle_run).read()
 
