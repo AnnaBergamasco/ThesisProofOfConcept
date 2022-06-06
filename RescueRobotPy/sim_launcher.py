@@ -276,5 +276,29 @@ def run_simulator(vars: List[Tuple[str, float]]) -> str:
 
     return log
 
+def get_regions(model_lines: List[str]) -> Dict[str, float]:
+    regions_dict = { }
+    for line in model_lines:
+        if line.endswith(' u'):
+            pieces = line.split()
+            key = pieces[0] + ' ' + pieces[1] + ' ' + pieces[2]
+            val = float(pieces[3])
+            regions_dict[key] = val
+    return regions_dict
+
+def run_fast_try(vars: List[Tuple[str, float]]) -> Dict[str, float]:
+    origin = os.getcwd()
+    os.chdir(mbt_module_dir)
+
+    initial_model = ''
+    with open(model) as input_model:
+        initial_model = input_model.read().splitlines()
+    new_model = apply_Vars(initial_model, rules, vars, consistency_rules)
+
+    regions = get_regions(new_model)
+
+    os.chdir(origin)
+
+    return regions
 
 # example of invocation
