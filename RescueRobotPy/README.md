@@ -28,7 +28,7 @@ To run the script install the `Pymoo` library (instructions at [https://pymoo.or
 ```
 python3 RescueRobotPymoo.py [algorithm name] [-a]
 ```
-Where the algorithm name can be "NSGA2", "NSGA3" and "MOEAD".
+Where the algorithm name can be "NSGA2", "NSGA3", "MOEAD", "AGEMOEA" and "UNSGA3".
 
 The option `-a` enables the all distances fitness mode.
 
