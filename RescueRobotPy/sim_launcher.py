@@ -26,7 +26,7 @@ class Action(Enum):
 Semantic space
 --------------
 - battery: int in [1,100]
-- quality: int in [1, 100]
+- quality: int in [1, 10]
 - lights: float in [10.0, 10000.0]
 - obstacleSize: float in [0.1, 2.0]
 
@@ -49,7 +49,7 @@ Each rule is a 5-tuple [arc, function, action, lowerbound, upperbound], where:
 fb1 = "0.0001 * (100 - x)"
 fb2 = "(" + fb1 + ") / 2"
 # quality
-fq1 = "0.001 * (10 - x)"
+fq1 = "((10-x) / ((10-x) + 1)) * 0.005"
 fq2 = "(" + fq1 + ") / 2"
 # lights
 fl1 = "((x-10) / ((x-10) + 100)) * 0.025"
