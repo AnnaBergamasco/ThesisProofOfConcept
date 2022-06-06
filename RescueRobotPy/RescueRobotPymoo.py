@@ -20,11 +20,11 @@ from pymoo.visualization.petal import Petal
 from pymoo.algorithms.moo.unsga3 import UNSGA3
 
 
-mask = ["int", "real"]
+mask = ["int", "real", "int", "real"]
 
 sampling = MixedVariableSampling(mask, {
     "real": get_sampling("real_random"),
-    "int": get_sampling("int_random")
+    "int": get_sampling("int_random"),
 })
 
 crossover = MixedVariableCrossover(mask, {
@@ -40,7 +40,7 @@ mutation = MixedVariableMutation(mask, {
 class RescueRobotProblemM(ElementwiseProblem):
 
     def __init__(self):
-        super().__init__(n_var= 2, n_obj = 2, n_constr = 0, xl = [0, 10.0], xu = [100, 10000.0])
+        super().__init__(n_var= 4, n_obj = 2, n_constr = 0, xl = [1, 10.0, 1, 0.1], xu = [100, 10000.0, 10, 2.0])
         self.evaluationNumber = 0
 
     def _evaluate(self, x, out, *args, **kwargs):
@@ -48,16 +48,18 @@ class RescueRobotProblemM(ElementwiseProblem):
 
         battery = x[0]
         light = x[1]
+        quality = x[2]
+        obstacleSize = x[3]
 
         print("-")
         print("-")
         print("-")
-        print("EVALUATING: battery = " + str(battery) + " light = " + str(light))
+        print("EVALUATING: battery = " + str(battery) + " light = " + str(light) + " quality = " + str(quality) + " obstacleSize = " + str(obstacleSize))
         print("-")
         print("-")
         print("-")
 
-        sim = SimulatorRunner(battery=battery, light=light)
+        sim = SimulatorRunner(battery=battery, light=light, quality=quality, obstacleSize=obstacleSize)
         sim.runSimulator()
 
         f1 = min(sim.getT1Distances())
@@ -78,7 +80,7 @@ class RescueRobotProblemM(ElementwiseProblem):
 class RescueRobotProblemA(ElementwiseProblem):
 
     def __init__(self):
-        super().__init__(n_var= 2, n_obj = 6, n_constr = 0, xl = [0, 10.0], xu = [100, 10000.0])
+        super().__init__(n_var= 4, n_obj = 6, n_constr = 0, xl = [0, 10.0], xu = [100, 10000.0])
         self.evaluationNumber = 0
 
     def _evaluate(self, x, out, *args, **kwargs):
@@ -86,16 +88,18 @@ class RescueRobotProblemA(ElementwiseProblem):
 
         battery = x[0]
         light = x[1]
+        quality = x[2]
+        obstacleSize = x[3]
 
         print("-")
         print("-")
         print("-")
-        print("EVALUATING: battery = " + str(battery) + " light = " + str(light))
+        print("EVALUATING: battery = " + str(battery) + " light = " + str(light) + " quality = " + str(quality) + " obstacleSize = " + str(obstacleSize))
         print("-")
         print("-")
         print("-")
 
-        sim = SimulatorRunner(battery=battery, light=light)
+        sim = SimulatorRunner(battery=battery, light=light, quality=quality, obstacleSize=obstacleSize)
         sim.runSimulator()
 
         f1 = sim.getT1Distances()
@@ -223,12 +227,12 @@ if __name__ == "__main__":
     F = res.F
 
     xl, xu = problem.bounds()
-    plt.figure(figsize=(7, 5))
+    '''plt.figure(figsize=(7, 5))
     plt.scatter(X[:, 0], X[:, 1], s=30, facecolors='none', edgecolors='r')
     plt.xlim(xl[0], xu[0])
     plt.ylim(xl[1], xu[1])
     plt.title("Design Space")
-    plt.show()
+    plt.show()'''
     
     if selection == 1:
 

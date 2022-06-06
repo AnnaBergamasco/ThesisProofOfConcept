@@ -1,4 +1,4 @@
-
+ 
 
 from pandas import array
 import sim_launcher 
@@ -8,12 +8,16 @@ class SimulatorRunner():
     def __init__(
         self, 
         battery,
-        light
+        light,
+        quality,
+        obstacleSize
     ):
         super(SimulatorRunner, self).__init__()
 
         self.battery = battery
         self.light = light
+        self.quality = quality
+        self.obstacleSize = obstacleSize
 
         self.t1Probabilities = [0,0,0]
         self.t2Probabilities = [0,0,0]
@@ -24,7 +28,7 @@ class SimulatorRunner():
     def runSimulator(self) -> None:
 
         
-        outputLog = sim_launcher.run_simulator([('battery', self.battery) , ('lights', self.light)])
+        outputLog = sim_launcher.run_simulator([('battery', self.battery) , ('lights', self.light), ('quality', self.quality), ('obstacleSize', self.obstacleSize)])
         logLines = outputLog.split('\n')
 
         count = 0
