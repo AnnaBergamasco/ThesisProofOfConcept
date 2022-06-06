@@ -25,10 +25,10 @@ class Action(Enum):
 
 Semantic space
 --------------
-- battery: int in [1,5]
-- speed: float in [0.5, 1.5]
-- lights: float in [10, 10000]
-- smoke: int in [0, 2]
+- battery: int in [1,100]
+- quality: int in [1, 100]
+- lights: float in [10.0, 10000.0]
+- obstacleSize: float in [0.1, 2.0]
 
 Definition of the rules (dictionary structure).
 Each variable in the semantic space has one or more rules.
