@@ -8,7 +8,8 @@ from math import sin, factorial, pow, exp
 
 ### Settings ###
 # modify
-mbt_module_dir = '/home/anna/Documenti/Uni/Tesi/mbt-module'
+#mbt_module_dir = '/home/anna/Documenti/Uni/Tesi/mbt-module'
+mbt_module_dir = '/Users/matteocamilli/tools/mbt-module'
 # do not modify
 model = 'src/main/resources/rescuerobot.jmdp'
 model_back = 'src/main/resources/rescuerobot.jmdp.back'

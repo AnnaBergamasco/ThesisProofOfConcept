@@ -26,13 +26,23 @@ It also contains a main function that sets which algorithm to use and its parame
 
 To run the script install the `Pymoo` library (instructions at [https://pymoo.org/installation.html](https://pymoo.org/installation.html)) and then use the command:
 ```
-python3 RescueRobotPymoo.py [algorithm name] [-a] [-f]
+usage: RescueRobotPymoo.py [-h] [-a] [-f] [-s SIZE] [-n NITERATIONS] [-v] alg
+
+Falsification with many-objective search.
+
+positional arguments:
+  alg                   selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -a, --alldist         enables var-wise fitness mode (default: region-wise)
+  -f, --fast            enables fast mode
+  -s SIZE, --size SIZE  population size
+  -n NITERATIONS, --niterations NITERATIONS
+                        number of iterations
+  -v, --verbose         enables verbose log
 ```
-Where the algorithm name can be "NSGA2", "NSGA3", "MOEAD", "AGEMOEA" and "UNSGA3".
 
-The option `-a` enables the all distances fitness mode.
-
-The option `-f` enables the fast computation mode for the fitness (without running the full simulation).
 
 ## sim_launcher.py
 

@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 from pymoo.core.problem import ElementwiseProblem
 from SimulatorRunner import SimulatorRunner
@@ -39,10 +40,12 @@ mutation = MixedVariableMutation(mask, {
 
 class RescueRobotProblemM(ElementwiseProblem):
 
-    def __init__(self, fast):
+    def __init__(self, fast = False, verbose = False):
         super().__init__(n_var= 4, n_obj = 2, n_constr = 0, xl = [1, 10.0, 1, 0.1], xu = [100, 10000.0, 10, 2.0])
         self.evaluationNumber = 0
         self.fast = fast
+        self.verbose = verbose
+        self.disequilibrium_count = 0
 
     def _evaluate(self, x, out, *args, **kwargs):
         self.evaluationNumber = self.evaluationNumber + 1
@@ -52,15 +55,16 @@ class RescueRobotProblemM(ElementwiseProblem):
         quality = x[2]
         obstacleSize = x[3]
 
-        print("-")
-        print("-")
-        print("-")
-        print("EVALUATING: battery = " + str(battery) + " light = " + str(light) + " quality = " + str(quality) + " obstacleSize = " + str(obstacleSize))
-        print("-")
-        print("-")
-        print("-")
+        if self.verbose:
+            print("-")
+            print("-")
+            print("-")
+            print("EVALUATING: battery = " + str(battery) + " light = " + str(light) + " quality = " + str(quality) + " obstacleSize = " + str(obstacleSize))
+            print("-")
+            print("-")
+            print("-")
 
-        sim = SimulatorRunner(battery=battery, light=light, quality=quality, obstacleSize=obstacleSize)
+        sim = SimulatorRunner(battery=battery, light=light, quality=quality, obstacleSize=obstacleSize, verbose=self.verbose)
 
         if self.fast:
             sim.runSimulatorFast()
@@ -71,24 +75,32 @@ class RescueRobotProblemM(ElementwiseProblem):
         f1 = min(sim.getT1Distances())
         f2 = min(sim.getT2Distances())
 
-        print("-")
-        print("-")
-        print("-")
-        print("Evaluation number: " + str(self.evaluationNumber))
-        print("Objectives: " + str(f1) + " " + str(f2))
-        print("-")
-        print("-")
-        print("-")
+        if self.verbose:
+            print("-")
+            print("-")
+            print("-")
+            print("Evaluation number: " + str(self.evaluationNumber))
+            print("Objectives: " + str(f1) + " " + str(f2))
+            print("-")
+            print("-")
+            print("-")
 
         out["F"] = [f1, f2]
         out["G"] = []
 
+        for o in out["F"]:
+            if o < 0.0:
+                self.disequilibrium_count += 1
+                break
+
 class RescueRobotProblemA(ElementwiseProblem):
 
-    def __init__(self, fast):
+    def __init__(self, fast = False, verbose = False):
         super().__init__(n_var= 4, n_obj = 6, n_constr = 0, xl = [1, 10.0, 1, 0.1], xu = [100, 10000.0, 10, 2.0])
         self.evaluationNumber = 0
         self.fast = fast
+        self.verbose = verbose
+        self.disequilibrium_count = 0
 
     def _evaluate(self, x, out, *args, **kwargs):
         self.evaluationNumber = self.evaluationNumber + 1
@@ -98,16 +110,17 @@ class RescueRobotProblemA(ElementwiseProblem):
         quality = x[2]
         obstacleSize = x[3]
 
-        print("-")
-        print("-")
-        print("-")
-        print("EVALUATING: battery = " + str(battery) + " light = " + str(light) + " quality = " + str(quality) + " obstacleSize = " + str(obstacleSize))
-        print("-")
-        print("-")
-        print("-")
+        if self.verbose:
+            print("-")
+            print("-")
+            print("-")
+            print("EVALUATING: battery = " + str(battery) + " light = " + str(light) + " quality = " + str(quality) + " obstacleSize = " + str(obstacleSize))
+            print("-")
+            print("-")
+            print("-")
 
-        sim = SimulatorRunner(battery=battery, light=light, quality=quality, obstacleSize=obstacleSize)
-        
+        sim = SimulatorRunner(battery=battery, light=light, quality=quality, obstacleSize=obstacleSize, verbose=self.verbose)
+
         if self.fast:
             sim.runSimulatorFast()
         else:
@@ -116,76 +129,89 @@ class RescueRobotProblemA(ElementwiseProblem):
         f1 = sim.getT1Distances()
         f2 = sim.getT2Distances()
 
-        print("-")
-        print("-")
-        print("-")
-        print("Evaluation number: " + str(self.evaluationNumber))
-        print("Objectives: " + str(f1[0]) + " " + str(f1[1]) + " " + str(f1[2]) + " " + str(f2[0]) + " " + str(f2[1]) + " " + str(f2[2]))
-        print("-")
-        print("-")
-        print("-")
+        if self.verbose:
+            print("-")
+            print("-")
+            print("-")
+            print("Evaluation number: " + str(self.evaluationNumber))
+            print("Objectives: " + str(f1[0]) + " " + str(f1[1]) + " " + str(f1[2]) + " " + str(f2[0]) + " " + str(f2[1]) + " " + str(f2[2]))
+            print("-")
+            print("-")
+            print("-")
 
         out["F"] = [f1[0], f1[1], f1[2], f2[0], f2[1], f2[2]]
         out["G"] = []
 
+        for o in out["F"]:
+            if o < 0.0:
+                self.disequilibrium_count += 1
+                break
 
-if __name__ == "__main__":
+
+def main():
+
+    parser = argparse.ArgumentParser(description='Falsification with many-objective search.')
+    parser.add_argument("alg", help="selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3]")
+    parser.add_argument("-a", "--alldist", action='store_true', help="enables var-wise fitness mode (default: region-wise)", required=False)
+    parser.add_argument("-f", "--fast", action='store_true', help="enables fast mode", required=False)
+    parser.add_argument("-s", "--size", type=int, help="population size", required=False, default=2)
+    parser.add_argument("-n", "--niterations", type=int, help="number of iterations", required=False, default=8)
+    parser.add_argument("-v", "--verbose", action='store_true', help="enables verbose log", required=False)
+    args = parser.parse_args()
 
     selection = 1
     fast = False
+    population_size = args.size
+    niterations = args.niterations
+    alg_name = args.alg
+    partitions = 2
 
-    opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
-    if "-a" in opts:
+    if args.alldist:
         selection = 2
-    
-    if "-f" in opts:
+
+    if args.verbose:
+        print("Verbose mode on.")
+
+    if args.fast:
         fast = True
-        print("FAST SIMULATION MODE ON")
+        print("Fast simulation mode on.")
 
     if selection == 1:
-        print("MODE: minimum distance mode")
-        problem  = RescueRobotProblemM(fast=fast)
+        print("Region-wise distance mode on.")
+        problem  = RescueRobotProblemM(fast=fast, verbose=args.verbose)
         numb_obj = 2
-        
-
-
     else:
-        print("MODE: all distances mode")
-        problem = RescueRobotProblemA(fast=fast)
+        print("Var-wise distance mode on.")
+        problem = RescueRobotProblemA(fast=fast, verbose=args.verbose)
         numb_obj = 6
-        
-    
-    alg_name = None
-    if np.size(sys.argv) > 1:
-        alg_name = sys.argv[1]
-    
+
     if alg_name == "NSGA2":
-        print("selected algorithm: NSGA-II")
+        print("Selected algorithm: NSGA-II.")
         algorithm = NSGA2(
-            pop_size= 2,
+            pop_size= population_size,
             n_offsprings= None,
             sampling= sampling,
             crossover= crossover,
             mutation= mutation
         )
-    
+
     elif alg_name == "NSGA3":
-        print("selected algorithm: NSGA-III")
-        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=12)
+        print("Selected algorithm: NSGA-III.")
+        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=partitions)
         algorithm = NSGA3(
-            pop_size= 2,
+            pop_size= population_size,
             n_offsprings= None,
             sampling= sampling,
             crossover= crossover,
             mutation= mutation,
             ref_dirs= ref_dirs
         )
-    
+
     elif alg_name == "UNSGA3":
-        print("selected algorithm: U-NSGA-III")
-        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=12)
+        print("Selected algorithm: U-NSGA-III.")
+        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=partitions)
         algorithm = UNSGA3(
-            pop_size= 2,
+            pop_size= population_size,
             n_offsprings= None,
             sampling= sampling,
             crossover= crossover,
@@ -194,15 +220,15 @@ if __name__ == "__main__":
         )
 
     elif alg_name == "MOEAD":
-        print("selected algorithm: MOEA-D")
-        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=2)
+        print("Selected algorithm: MOEA-D.")
+        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=partitions)
         algorithm = MOEAD(
             n_offsprings= None,
             sampling= sampling,
             crossover= crossover,
             mutation= mutation,
             ref_dirs= ref_dirs,
-            n_neighbors=2,
+            n_neighbors=12,
             prob_neighbor_mating= 0.7
         )
 
@@ -213,22 +239,15 @@ if __name__ == "__main__":
             sampling= sampling,
             crossover= crossover,
             mutation= mutation,
-            pop_size= 2
+            pop_size= population_size
         )
-    
-    else:
-        print("selected algorithm: invalid. Default algorithm (NSGA-II) applied.")
-        algorithm = NSGA2(
-            pop_size= 2,
-            n_offsprings= None,
-            sampling= sampling,
-            crossover= crossover,
-            mutation= mutation
-        )
-    
 
-    
-    termination = get_termination("n_gen", 8)
+    else:
+        raise ValueError("Invalid algorithm (use -h to see the valid options).")
+
+
+
+    termination = get_termination("n_gen", niterations)
 
     res = minimize(
         problem,
@@ -250,16 +269,19 @@ if __name__ == "__main__":
     plt.ylim(xl[1], xu[1])
     plt.title("Design Space")
     plt.show()'''
-    
-    if selection == 1:
 
-        plt.figure(figsize=(7, 5))
-        plt.scatter(F[:, 0], F[:, 1], s=30, facecolors='none', edgecolors='blue')
-        plt.title("Objective Space")
-        plt.show()
+    if args.verbose:
+        if selection == 1:
+            plt.figure(figsize=(7, 5))
+            plt.scatter(F[:, 0], F[:, 1], s=30, facecolors='none', edgecolors='blue')
+            plt.title("Objective Space")
+            plt.show()
+        else:
+            PCP().add(F).show()
+            Heatmap().add(F).show()
+            Petal(bounds=[0, 1]).add(F).show()
 
-    else:
+    print("Disequilibrium count: {}".format(problem.disequilibrium_count))
 
-        PCP().add(F).show()
-        Heatmap().add(F).show()
-        Petal(bounds=[0, 1]).add(F).show()
+if __name__ == "__main__":
+    main()
