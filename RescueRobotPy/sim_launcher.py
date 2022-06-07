@@ -8,8 +8,8 @@ from math import sin, factorial, pow, exp
 
 ### Settings ###
 # modify
-#mbt_module_dir = '/home/anna/Documenti/Uni/Tesi/mbt-module'
-mbt_module_dir = '/Users/matteocamilli/tools/mbt-module'
+mbt_module_dir = '/home/anna/Documenti/Uni/Tesi/mbt-module'
+#mbt_module_dir = '/Users/matteocamilli/tools/mbt-module'
 # do not modify
 model = 'src/main/resources/rescuerobot.jmdp'
 model_back = 'src/main/resources/rescuerobot.jmdp.back'
@@ -56,7 +56,7 @@ fq2 = "(" + fq1 + ") / 2"
 fl1 = "((x-10) / ((x-10) + 100)) * 0.025"
 fl2 = "(" + fl1 + ") / 2"
 # obstacleSize
-fs1 = "0.001 * x * 4"
+fs1 = "(x / (x + 10)) * 0.29"
 fs2 = "(" + fs1 + ") / 2"
 
 rules = {
