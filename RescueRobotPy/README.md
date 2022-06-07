@@ -26,12 +26,13 @@ It also contains a main function that sets which algorithm to use and its parame
 
 To run the script install the `Pymoo` library (instructions at [https://pymoo.org/installation.html](https://pymoo.org/installation.html)) and then use the command:
 ```
-python3 RescueRobotPymoo.py [algorithm name] [-a]
+python3 RescueRobotPymoo.py [algorithm name] [-a] [-f]
 ```
 Where the algorithm name can be "NSGA2", "NSGA3", "MOEAD", "AGEMOEA" and "UNSGA3".
 
 The option `-a` enables the all distances fitness mode.
 
+The option `-f` enables the fast computation mode for the fitness (without running the full simulation).
 
 ## sim_launcher.py
 

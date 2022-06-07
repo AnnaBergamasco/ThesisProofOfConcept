@@ -69,6 +69,26 @@ class SimulatorRunner():
         print("-")
         print("-")
 
+    def runSimulatorFast(self) -> None:
+
+        results = sim_launcher.run_fast_try([('battery', self.battery) , ('lights', self.light), ('quality', self.quality), ('obstacleSize', self.obstacleSize)])
+        self.t1Probabilities[0] = results.get('S0 e1 S1')
+        self.t1Probabilities[1] = results.get('S0 e1 S2')
+        self.t1Probabilities[2] = results.get('S0 e1 S6')
+        self.t2Probabilities[0] = results.get('S3 e1 S1')
+        self.t2Probabilities[1] = results.get('S3 e1 S4')
+        self.t2Probabilities[2] = results.get('S3 e1 S5')
+
+        print("-")
+        print("-")
+        print("-")
+        print("t1 area probabilities: " + str(self.t1Probabilities[0]) + " " + str(self.t1Probabilities[1]) + " " +  str(self.t1Probabilities[2]))
+        print("t2 area probabilities: " + str(self.t2Probabilities[0]) + " " + str(self.t2Probabilities[1]) + " " +  str(self.t2Probabilities[2]))
+        print("-")
+        print("-")
+        print("-")
+
+
     def distance(self, value, bound1, bound2) -> float:
         dis1 = value - bound1
         dis2 = bound2 - value

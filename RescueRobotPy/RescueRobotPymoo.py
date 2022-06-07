@@ -39,9 +39,10 @@ mutation = MixedVariableMutation(mask, {
 
 class RescueRobotProblemM(ElementwiseProblem):
 
-    def __init__(self):
+    def __init__(self, fast):
         super().__init__(n_var= 4, n_obj = 2, n_constr = 0, xl = [1, 10.0, 1, 0.1], xu = [100, 10000.0, 10, 2.0])
         self.evaluationNumber = 0
+        self.fast = fast
 
     def _evaluate(self, x, out, *args, **kwargs):
         self.evaluationNumber = self.evaluationNumber + 1
@@ -60,7 +61,12 @@ class RescueRobotProblemM(ElementwiseProblem):
         print("-")
 
         sim = SimulatorRunner(battery=battery, light=light, quality=quality, obstacleSize=obstacleSize)
-        sim.runSimulator()
+
+        if self.fast:
+            sim.runSimulatorFast()
+        else:
+            sim.runSimulator()
+
 
         f1 = min(sim.getT1Distances())
         f2 = min(sim.getT2Distances())
@@ -79,9 +85,10 @@ class RescueRobotProblemM(ElementwiseProblem):
 
 class RescueRobotProblemA(ElementwiseProblem):
 
-    def __init__(self):
-        super().__init__(n_var= 4, n_obj = 6, n_constr = 0, xl = [0, 10.0], xu = [100, 10000.0])
+    def __init__(self, fast):
+        super().__init__(n_var= 4, n_obj = 6, n_constr = 0, xl = [1, 10.0, 1, 0.1], xu = [100, 10000.0, 10, 2.0])
         self.evaluationNumber = 0
+        self.fast = fast
 
     def _evaluate(self, x, out, *args, **kwargs):
         self.evaluationNumber = self.evaluationNumber + 1
@@ -100,7 +107,11 @@ class RescueRobotProblemA(ElementwiseProblem):
         print("-")
 
         sim = SimulatorRunner(battery=battery, light=light, quality=quality, obstacleSize=obstacleSize)
-        sim.runSimulator()
+        
+        if self.fast:
+            sim.runSimulatorFast()
+        else:
+            sim.runSimulator()
 
         f1 = sim.getT1Distances()
         f2 = sim.getT2Distances()
@@ -121,26 +132,32 @@ class RescueRobotProblemA(ElementwiseProblem):
 if __name__ == "__main__":
 
     selection = 1
+    fast = False
 
     opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
     if "-a" in opts:
         selection = 2
+    
+    if "-f" in opts:
+        fast = True
+        print("FAST SIMULATION MODE ON")
 
     if selection == 1:
         print("MODE: minimum distance mode")
-        problem  = RescueRobotProblemM()
+        problem  = RescueRobotProblemM(fast=fast)
         numb_obj = 2
         
 
 
     else:
         print("MODE: all distances mode")
-        problem = RescueRobotProblemA()
+        problem = RescueRobotProblemA(fast=fast)
         numb_obj = 6
         
     
-
-    alg_name = sys.argv[1]
+    alg_name = None
+    if np.size(sys.argv) > 1:
+        alg_name = sys.argv[1]
     
     if alg_name == "NSGA2":
         print("selected algorithm: NSGA-II")
