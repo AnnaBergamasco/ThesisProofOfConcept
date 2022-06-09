@@ -31,7 +31,7 @@ usage: RescueRobotPymoo.py [-h] [-a] [-f] [-s SIZE] [-n NITERATIONS] [-v] alg
 Falsification with many-objective search.
 
 positional arguments:
-  alg                   selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3]
+  alg                   selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RANDOM]
 
 optional arguments:
   -h, --help            show this help message and exit

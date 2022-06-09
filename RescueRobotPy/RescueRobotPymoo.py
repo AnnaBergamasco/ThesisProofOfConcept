@@ -1,4 +1,5 @@
 import argparse
+from random import Random
 import numpy as np
 from pymoo.core.problem import ElementwiseProblem
 from SimulatorRunner import SimulatorRunner
@@ -19,6 +20,7 @@ from pymoo.algorithms.moo.age import AGEMOEA
 from pymoo.visualization.heatmap import Heatmap
 from pymoo.visualization.petal import Petal
 from pymoo.algorithms.moo.unsga3 import UNSGA3
+import random
 
 
 mask = ["int", "real", "int", "real"]
@@ -128,6 +130,7 @@ class RescueRobotProblemA(ElementwiseProblem):
 
         f1 = sim.getT1Distances()
         f2 = sim.getT2Distances()
+
 
         if self.verbose:
             print("-")
@@ -241,47 +244,77 @@ def main():
             mutation= mutation,
             pop_size= population_size
         )
+    
+    elif alg_name == 'RANDOM':
+        n_tries = population_size * niterations
+        n_disequiliburium = 0
+        for i in range(1, n_tries):
+
+            battery = random.randint(1, 100)
+            quality = random.randint(1, 10)
+            light = random.uniform(10.0, 10000.0)
+            obstacleSize = random.uniform(0.1, 2.0)
+
+            sim = SimulatorRunner(battery=battery, light=light, quality=quality, obstacleSize=obstacleSize, verbose=args.verbose)
+
+            if args.fast:
+                sim.runSimulatorFast()
+            else:
+                sim.runSimulator()
+
+            f1 = sim.getT1Distances()
+            f2 = sim.getT2Distances()
+
+            results = [f1[0], f1[1], f1[2], f2[0], f2[1], f2[2]]
+
+            for o in results:
+                if o < 0.0:
+                    n_disequiliburium += 1
+                    break
+
+        print("Disequilibrium count: {}".format(n_disequiliburium))
 
     else:
         raise ValueError("Invalid algorithm (use -h to see the valid options).")
 
 
+    if alg_name != 'RANDOM':
 
-    termination = get_termination("n_gen", niterations)
+        termination = get_termination("n_gen", niterations)
 
-    res = minimize(
-        problem,
-        algorithm,
-        termination,
-        seed= None,
-        save_history= True,
-        verbose= True
-    )
+        res = minimize(
+            problem,
+            algorithm,
+            termination,
+            seed= None,
+            save_history= True,
+            verbose= True
+        )
 
 
-    X = res.X
-    F = res.F
+        X = res.X
+        F = res.F
 
-    xl, xu = problem.bounds()
-    '''plt.figure(figsize=(7, 5))
-    plt.scatter(X[:, 0], X[:, 1], s=30, facecolors='none', edgecolors='r')
-    plt.xlim(xl[0], xu[0])
-    plt.ylim(xl[1], xu[1])
-    plt.title("Design Space")
-    plt.show()'''
+        xl, xu = problem.bounds()
+        '''plt.figure(figsize=(7, 5))
+        plt.scatter(X[:, 0], X[:, 1], s=30, facecolors='none', edgecolors='r')
+        plt.xlim(xl[0], xu[0])
+        plt.ylim(xl[1], xu[1])
+        plt.title("Design Space")
+        plt.show()'''
 
-    if args.verbose:
-        if selection == 1:
-            plt.figure(figsize=(7, 5))
-            plt.scatter(F[:, 0], F[:, 1], s=30, facecolors='none', edgecolors='blue')
-            plt.title("Objective Space")
-            plt.show()
-        else:
-            PCP().add(F).show()
-            Heatmap().add(F).show()
-            Petal(bounds=[0, 1]).add(F).show()
+        if args.verbose:
+            if selection == 1:
+                plt.figure(figsize=(7, 5))
+                plt.scatter(F[:, 0], F[:, 1], s=30, facecolors='none', edgecolors='blue')
+                plt.title("Objective Space")
+                plt.show()
+            else:
+                PCP().add(F).show()
+                Heatmap().add(F).show()
+                Petal(bounds=[0, 1]).add(F).show()
 
-    print("Disequilibrium count: {}".format(problem.disequilibrium_count))
+        print("Disequilibrium count: {}".format(problem.disequilibrium_count))
 
 if __name__ == "__main__":
     main()
