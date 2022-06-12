@@ -1,5 +1,8 @@
 import argparse
+from ast import arg
+from ctypes import sizeof
 from random import Random
+from xml.etree.ElementTree import tostring
 import numpy as np
 from pymoo.core.problem import ElementwiseProblem
 from SimulatorRunner import SimulatorRunner
@@ -160,6 +163,7 @@ def main():
     parser.add_argument("-s", "--size", type=int, help="population size", required=False, default=2)
     parser.add_argument("-n", "--niterations", type=int, help="number of iterations", required=False, default=8)
     parser.add_argument("-v", "--verbose", action='store_true', help="enables verbose log", required=False)
+    parser.add_argument("-rf", "--results_file", action='store_true', help="enables saving of results file", required=False)
     args = parser.parse_args()
 
     selection = 1
@@ -178,6 +182,9 @@ def main():
     if args.fast:
         fast = True
         print("Fast simulation mode on.")
+    
+    if args.results_file:
+        print("Results file saving mode on.")
 
     if selection == 1:
         print("Region-wise distance mode on.")
@@ -315,6 +322,28 @@ def main():
                 Petal(bounds=[0, 1]).add(F).show()
 
         print("Disequilibrium count: {}".format(problem.disequilibrium_count))
+
+    if args.results_file:
+
+        file = open('results.txt', 'w')
+    
+        file.write("[METRICS]\n")
+        if alg_name == "RANDOM":
+            file.write("\t[DISEQUILIBRIUM COUNT] " + str(n_disequiliburium) + "\n")
+        else:
+            file.write("\t[DISEQUILIBRIUM COUNT] " + str(problem.disequilibrium_count) + "\n")
+            file.write("[VARIABLES]\n")
+            ind = 0
+            for x in X:
+                ind = ind  +1
+                file.write("\t[RESULT " + str(ind) + "] " + str(x) + "\n")
+            file.write("[OBJECTIVES]\n")
+            ind = 0
+            for f in F:
+                ind = ind  +1
+                file.write("\t[RESULT " + str(ind) + "] " + str(f) + "\n")
+
+        file.close()
 
 if __name__ == "__main__":
     main()

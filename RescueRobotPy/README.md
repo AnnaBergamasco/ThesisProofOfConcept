@@ -26,7 +26,7 @@ It also contains a main function that sets which algorithm to use and its parame
 
 To run the script install the `Pymoo` library (instructions at [https://pymoo.org/installation.html](https://pymoo.org/installation.html)) and then use the command:
 ```
-usage: RescueRobotPymoo.py [-h] [-a] [-f] [-s SIZE] [-n NITERATIONS] [-v] alg
+usage: RescueRobotPymoo.py [-h] [-a] [-f] [-s SIZE] [-n NITERATIONS] [-v] [-rf] alg
 
 Falsification with many-objective search.
 
@@ -41,6 +41,7 @@ optional arguments:
   -n NITERATIONS, --niterations NITERATIONS
                         number of iterations
   -v, --verbose         enables verbose log
+  -rf, --results_file   enables saving of results file
 ```
 
 
