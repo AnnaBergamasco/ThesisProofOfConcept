@@ -41,7 +41,8 @@ optional arguments:
   -n NITERATIONS, --niterations NITERATIONS
                         number of iterations
   -v, --verbose         enables verbose log
-  -rf, --results_file   enables saving of results file
+  -o OUTPUT_FILE, --output_file OUTPUT_FILE
+                        output file
 ```
 
 

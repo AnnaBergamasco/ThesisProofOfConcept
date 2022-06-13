@@ -163,7 +163,7 @@ def main():
     parser.add_argument("-s", "--size", type=int, help="population size", required=False, default=2)
     parser.add_argument("-n", "--niterations", type=int, help="number of iterations", required=False, default=8)
     parser.add_argument("-v", "--verbose", action='store_true', help="enables verbose log", required=False)
-    parser.add_argument("-rf", "--results_file", action='store_true', help="enables saving of results file", required=False)
+    parser.add_argument("-o", "--output_file", type= str, help='output file', required=False, default=None)
     args = parser.parse_args()
 
     selection = 1
@@ -183,7 +183,7 @@ def main():
         fast = True
         print("Fast simulation mode on.")
     
-    if args.results_file:
+    if args.output_file:
         print("Results file saving mode on.")
 
     if selection == 1:
@@ -323,9 +323,9 @@ def main():
 
         print("Disequilibrium count: {}".format(problem.disequilibrium_count))
 
-    if args.results_file:
+    if args.output_file:
 
-        file = open('results.txt', 'w')
+        file = open(args.output_file, 'w')
     
         file.write("[METRICS]\n")
         if alg_name == "RANDOM":
