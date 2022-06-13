@@ -35,13 +35,13 @@ sampling = MixedVariableSampling(mask, {
 })
 
 crossover = MixedVariableCrossover(mask, {
-    "real": get_crossover("real_sbx", prob=1.0, eta=20.0),
-    "int": get_crossover("int_sbx", prob=1.0, eta=20.0)
+    "real": get_crossover("real_sbx"),
+    "int": get_crossover("int_sbx")
 })
 
 mutation = MixedVariableMutation(mask, {
-    "real": get_mutation("real_pm", eta=20.0),
-    "int": get_mutation("int_pm", eta=20.0)
+    "real": get_mutation("real_pm"),
+    "int": get_mutation("int_pm")
 })
 
 class RescueRobotProblemM(ElementwiseProblem):
@@ -172,7 +172,7 @@ def main():
     population_size = args.size
     niterations = args.niterations
     alg_name = args.alg
-    partitions = 2
+    partitions = 12
 
     if args.alldist:
         selection = 2
