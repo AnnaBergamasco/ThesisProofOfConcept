@@ -23,6 +23,7 @@ from pymoo.algorithms.moo.age import AGEMOEA
 from pymoo.visualization.heatmap import Heatmap
 from pymoo.visualization.petal import Petal
 from pymoo.algorithms.moo.unsga3 import UNSGA3
+from pymoo.algorithms.moo.ctaea import CTAEA
 import random
 
 
@@ -250,6 +251,16 @@ def main():
             crossover= crossover,
             mutation= mutation,
             pop_size= population_size
+        )
+
+    elif alg_name == "CTAEA":
+        print("selected algorithm: C-TAEA")
+        ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=partitions)
+        algorithm = CTAEA(
+            sampling= sampling,
+            crossover= crossover,
+            mutation= mutation,
+            ref_dirs= ref_dirs
         )
     
     elif alg_name == 'RANDOM':
