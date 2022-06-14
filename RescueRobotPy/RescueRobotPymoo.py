@@ -2,6 +2,7 @@ import argparse
 from ast import arg
 from ctypes import sizeof
 from random import Random
+import re
 from xml.etree.ElementTree import tostring
 import numpy as np
 from pymoo.core.problem import ElementwiseProblem
@@ -24,6 +25,7 @@ from pymoo.visualization.heatmap import Heatmap
 from pymoo.visualization.petal import Petal
 from pymoo.algorithms.moo.unsga3 import UNSGA3
 from pymoo.algorithms.moo.ctaea import CTAEA
+from pymoo.algorithms.moo.rnsga3 import RNSGA3
 import random
 
 
@@ -261,6 +263,22 @@ def main():
             crossover= crossover,
             mutation= mutation,
             ref_dirs= ref_dirs
+        )
+
+    elif alg_name == "RNSGA3":
+        if selection == 2:
+            ref_points = np.array([[0.0, 0.0, 0.0, 0.01, 0.01, 0.01], [-0.01, -0.01, -0.01, 0.0, 0.0, 0.0]])
+        else:
+            ref_points = np.array([[0.0, 0.01], [-0.01, 0.0]])
+
+
+        print("selected algorithm: R-NSGA-III")
+        algorithm = RNSGA3(
+            ref_points= ref_points,
+            pop_per_ref_point= population_size/2,
+            sampling= sampling,
+            crossover= crossover,
+            mutation= mutation,
         )
     
     elif alg_name == 'RANDOM':
