@@ -174,7 +174,7 @@ def main():
     population_size = args.size
     niterations = args.niterations
     alg_name = args.alg
-    partitions = 12
+    partitions = 2
 
     if args.alldist:
         selection = 2
