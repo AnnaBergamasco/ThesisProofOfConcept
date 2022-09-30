@@ -267,7 +267,9 @@ def main():
 
     elif alg_name == "RNSGA3":
         if selection == 2:
-            ref_points = np.array([[0.0, 0.0, 0.0, 0.01, 0.01, 0.01], [-0.01, -0.01, -0.01, 0.0, 0.0, 0.0]])
+            ref_points = np.array([
+                [0.0, 0.0, 0.0, 0.01, 0.01, 0.01],
+                [-0.01, -0.01, -0.01, 0.0, 0.0, 0.0]])
         else:
             ref_points = np.array([[0.0, 0.01], [-0.01, 0.0]])
 
@@ -275,7 +277,7 @@ def main():
         print("selected algorithm: R-NSGA-III")
         algorithm = RNSGA3(
             ref_points= ref_points,
-            pop_per_ref_point= population_size/2,
+            pop_per_ref_point= population_size/5,
             sampling= sampling,
             crossover= crossover,
             mutation= mutation,
