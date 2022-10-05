@@ -109,6 +109,18 @@ class RescueRobotProblemA(ElementwiseProblem):
         self.fast = fast
         self.verbose = verbose
         self.disequilibrium_count = 0
+        self.minimum_distance_0_1 = 10000
+        self.minimum_distance_0_2 = 10000
+        self.minimum_distance_0_6 = 10000
+        self.minimum_distance_3_1 = 10000
+        self.minimum_distance_3_4 = 10000
+        self.minimum_distance_3_5 = 10000
+        self.average_distance_0_1 = 0
+        self.average_distance_0_2 = 0
+        self.average_distance_0_6 = 0
+        self.average_distance_3_1 = 0
+        self.average_distance_3_4 = 0
+        self.average_distance_3_5 = 0
 
     def _evaluate(self, x, out, *args, **kwargs):
         self.evaluationNumber = self.evaluationNumber + 1
@@ -155,6 +167,21 @@ class RescueRobotProblemA(ElementwiseProblem):
             if o < 0.0:
                 self.disequilibrium_count += 1
                 break
+
+        self.minimum_distance_0_1 = min(self.minimum_distance_0_1, f1[0])
+        self.minimum_distance_0_2 = min(self.minimum_distance_0_2, f1[1])
+        self.minimum_distance_0_6 = min(self.minimum_distance_0_6, f1[2])
+        self.minimum_distance_3_1 = min(self.minimum_distance_3_1, f2[0])
+        self.minimum_distance_3_4 = min(self.minimum_distance_3_4, f2[1])
+        self.minimum_distance_3_5 = min(self.minimum_distance_3_5, f2[2])
+
+        self.average_distance_0_1 = self.average_distance_0_1 + (f1[0] - self.average_distance_0_1)/self.evaluationNumber
+        self.average_distance_0_2 = self.average_distance_0_2 + (f1[1] - self.average_distance_0_2)/self.evaluationNumber
+        self.average_distance_0_6 = self.average_distance_0_6 + (f1[2] - self.average_distance_0_6)/self.evaluationNumber
+        self.average_distance_3_1 = self.average_distance_3_1 + (f2[0] - self.average_distance_3_1)/self.evaluationNumber
+        self.average_distance_3_4 = self.average_distance_3_4 + (f2[1] - self.average_distance_3_4)/self.evaluationNumber
+        self.average_distance_3_5 = self.average_distance_3_5 + (f2[2] - self.average_distance_3_5)/self.evaluationNumber
+        
 
 
 def main():
@@ -269,7 +296,10 @@ def main():
         if selection == 2:
             ref_points = np.array([
                 [0.0, 0.0, 0.0, 0.01, 0.01, 0.01],
-                [-0.01, -0.01, -0.01, 0.0, 0.0, 0.0]])
+                [-0.01, -0.01, -0.01, 0.0, 0.0, 0.0],
+                [0.01, 0.01, 0.01, 0.0, 0.0, 0.0],
+                [-0.01, -0.01, -0.01, 0.01, 0.01, 0.01],
+                [0.0, 0.0, 0.0, 0.01, 0.01, 0.01]])
         else:
             ref_points = np.array([[0.0, 0.01], [-0.01, 0.0]])
 
@@ -286,6 +316,22 @@ def main():
     elif alg_name == 'RANDOM':
         n_tries = population_size * niterations
         n_disequiliburium = 0
+
+        minimum_distance_0_1 = 10000
+        minimum_distance_0_2 = 10000
+        minimum_distance_0_6 = 10000
+        minimum_distance_3_1 = 10000
+        minimum_distance_3_4 = 10000
+        minimum_distance_3_5 = 10000
+        average_distance_0_1 = 0
+        average_distance_0_2 = 0
+        average_distance_0_6 = 0
+        average_distance_3_1 = 0
+        average_distance_3_4 = 0
+        average_distance_3_5 = 0
+        
+
+
         for i in range(1, n_tries):
 
             battery = random.randint(1, 100)
@@ -309,6 +355,36 @@ def main():
                 if o < 0.0:
                     n_disequiliburium += 1
                     break
+            
+            minimum_distance_0_1 = min(minimum_distance_0_1, f1[0])
+            minimum_distance_0_2 = min(minimum_distance_0_2, f1[1])
+            minimum_distance_0_6 = min(minimum_distance_0_6, f1[2])
+            minimum_distance_3_1 = min(minimum_distance_3_1, f2[0])
+            minimum_distance_3_4 = min(minimum_distance_3_4, f2[1])
+            minimum_distance_3_5 = min(minimum_distance_3_5, f2[2])
+            average_distance_0_1 = average_distance_0_1 + (f1[0] - average_distance_0_1)/i
+            average_distance_0_2 = average_distance_0_2 + (f1[1] - average_distance_0_2)/i
+            average_distance_0_6 = average_distance_0_6 + (f1[2] - average_distance_0_6)/i
+            average_distance_3_1 = average_distance_3_1 + (f2[0] - average_distance_3_1)/i
+            average_distance_3_4 = average_distance_3_4 + (f2[1] - average_distance_3_4)/i
+            average_distance_3_5 = average_distance_3_5 + (f2[2] - average_distance_3_5)/i
+        
+        
+        if args.alldist:
+            print("Minimum S0 e1 S1 distance: {}".format(minimum_distance_0_1))
+            print("Minimum S0 e1 S2 distance: {}".format(minimum_distance_0_2))
+            print("Minimum S0 e1 S6 distance: {}".format(minimum_distance_0_6))
+            print("Minimum S3 e1 S1 distance: {}".format(minimum_distance_3_1))
+            print("Minimum S3 e1 S4 distance: {}".format(minimum_distance_3_4))
+            print("Minimum S3 e1 S5 distance: {}".format(minimum_distance_3_5))
+
+            print("Average S0 e1 S1 distance: {}".format(average_distance_0_1))
+            print("Average S0 e1 S2 distance: {}".format(average_distance_0_2))
+            print("Average S0 e1 S6 distance: {}".format(average_distance_0_6))
+            print("Average S3 e1 S1 distance: {}".format(average_distance_3_1))
+            print("Average S3 e1 S4 distance: {}".format(average_distance_3_4))
+            print("Average S3 e1 S5 distance: {}".format(average_distance_3_5))
+            
 
         print("Disequilibrium count: {}".format(n_disequiliburium))
 
@@ -351,7 +427,22 @@ def main():
                 PCP().add(F).show()
                 Heatmap().add(F).show()
                 Petal(bounds=[0, 1]).add(F).show()
+        
+        if args.alldist:
+            print("Minimum S0 e1 S1 distance: {}".format(problem.minimum_distance_0_1))
+            print("Minimum S0 e1 S2 distance: {}".format(problem.minimum_distance_0_2))
+            print("Minimum S0 e1 S6 distance: {}".format(problem.minimum_distance_0_6))
+            print("Minimum S3 e1 S1 distance: {}".format(problem.minimum_distance_3_1))
+            print("Minimum S3 e1 S4 distance: {}".format(problem.minimum_distance_3_4))
+            print("Minimum S3 e1 S5 distance: {}".format(problem.minimum_distance_3_5))
 
+            print("Average S0 e1 S1 distance: {}".format(problem.average_distance_0_1))
+            print("Average S0 e1 S2 distance: {}".format(problem.average_distance_0_2))
+            print("Average S0 e1 S6 distance: {}".format(problem.average_distance_0_6))
+            print("Average S3 e1 S1 distance: {}".format(problem.average_distance_3_1))
+            print("Average S3 e1 S4 distance: {}".format(problem.average_distance_3_4))
+            print("Average S3 e1 S5 distance: {}".format(problem.average_distance_3_5))
+            
         print("Disequilibrium count: {}".format(problem.disequilibrium_count))
 
     if args.output_file:
@@ -361,9 +452,36 @@ def main():
         file.write("[METRICS]\n")
         if alg_name == "RANDOM":
             file.write("\t[DISEQUILIBRIUM COUNT] " + str(n_disequiliburium) + "\n")
+            if args.alldist:
+                file.write("\t[MINIMUM S0 e1 S1 DISTANCE]" + str(minimum_distance_0_1) + "\n")
+                file.write("\t[MINIMUM S0 e1 S2 DISTANCE]" + str(minimum_distance_0_2) + "\n")
+                file.write("\t[MINIMUM S0 e1 S6 DISTANCE]" + str(minimum_distance_0_6) + "\n")
+                file.write("\t[MINIMUM S3 e1 S1 DISTANCE]" + str(minimum_distance_3_1) + "\n")
+                file.write("\t[MINIMUM S3 e1 S4 DISTANCE]" + str(minimum_distance_3_4) + "\n")
+                file.write("\t[MINIMUM S3 e1 S5 DISTANCE]" + str(minimum_distance_3_5) + "\n")
+                file.write("\t[AVERAGE S0 e1 S1 DISTANCE]" + str(average_distance_0_1) + "\n")
+                file.write("\t[AVERAGE S0 e1 S2 DISTANCE]" + str(average_distance_0_2) + "\n")
+                file.write("\t[AVERAGE S0 e1 S6 DISTANCE]" + str(average_distance_0_6) + "\n")
+                file.write("\t[AVERAGE S3 e1 S1 DISTANCE]" + str(average_distance_3_1) + "\n")
+                file.write("\t[AVERAGE S3 e1 S4 DISTANCE]" + str(average_distance_3_4) + "\n")
+                file.write("\t[AVERAGE S3 e1 S5 DISTANCE]" + str(average_distance_3_5) + "\n")
+
         else:
             file.write("\t[DISEQUILIBRIUM COUNT] " + str(problem.disequilibrium_count) + "\n")
-            file.write("[VARIABLES]\n")
+            if args.alldist:
+                file.write("\t[MINIMUM S0 e1 S1 DISTANCE]" + str(problem.minimum_distance_0_1) + "\n")
+                file.write("\t[MINIMUM S0 e1 S2 DISTANCE]" + str(problem.minimum_distance_0_2) + "\n")
+                file.write("\t[MINIMUM S0 e1 S6 DISTANCE]" + str(problem.minimum_distance_0_6) + "\n")
+                file.write("\t[MINIMUM S3 e1 S1 DISTANCE]" + str(problem.minimum_distance_3_1) + "\n")
+                file.write("\t[MINIMUM S3 e1 S4 DISTANCE]" + str(problem.minimum_distance_3_4) + "\n")
+                file.write("\t[MINIMUM S3 e1 S5 DISTANCE]" + str(problem.minimum_distance_3_5) + "\n")
+                file.write("\t[AVERAGE S0 e1 S1 DISTANCE]" + str(problem.average_distance_0_1) + "\n")
+                file.write("\t[AVERAGE S0 e1 S2 DISTANCE]" + str(problem.average_distance_0_2) + "\n")
+                file.write("\t[AVERAGE S0 e1 S6 DISTANCE]" + str(problem.average_distance_0_6) + "\n")
+                file.write("\t[AVERAGE S3 e1 S1 DISTANCE]" + str(problem.average_distance_3_1) + "\n")
+                file.write("\t[AVERAGE S3 e1 S4 DISTANCE]" + str(problem.average_distance_3_4) + "\n")
+                file.write("\t[AVERAGE S3 e1 S5 DISTANCE]" + str(problem.average_distance_3_5) + "\n")
+                file.write("[VARIABLES]\n")
             ind = 0
             for x in X:
                 ind = ind  +1
