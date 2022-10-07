@@ -332,7 +332,7 @@ def main():
         
 
 
-        for i in range(1, n_tries):
+        for i in range(1, n_tries + 1):
 
             battery = random.randint(1, 100)
             quality = random.randint(1, 10)
