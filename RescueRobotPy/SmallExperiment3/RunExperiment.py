@@ -1,16 +1,40 @@
 
+import argparse
 import subprocess
 from RadarPlot import RadarPlot
 
 
 def main():
+
+    parser = argparse.ArgumentParser(description='Experiment on falsification with many-objective search, with computation of minimun and average distances.')
+    parser.add_argument("alg", help="selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RNSGA3, TAEA, RANDOM]")
+    args = parser.parse_args()
+    alg_name = args.alg
+
+    if alg_name == 'NSGA2':
+        alg_des = 'nsga2'
+    elif alg_name == 'NSGA3':
+        alg_des = 'nsga3'
+    elif alg_name == 'MOEAD':
+        alg_des = 'moead'
+    elif alg_name == 'AGEMOEA':
+        alg_des = 'agemoea'
+    elif alg_name == 'UNSGA3':
+        alg_des = 'unsga3'
+    elif alg_name == 'RNSGA3':
+        alg_des = 'rnsga3'
+    elif alg_name == 'TAEA':
+        alg_des = 'taea'
+    elif alg_name == 'RANDOM':
+        alg_des = 'random'
+
     min_low_bounds = [10, 10, 10, 10, 10, 10]
     min_hi_bounds = [-10, -10, -10, -10, -10, -10]
     avg_low_bounds = [10, 10, 10, 10, 10, 10]
     avg_hi_bounds = [-10, -10, -10, -10, -10, -10]
 
     for i in range(1, 21):
-        test_out = subprocess.run(["python3", "/home/anna/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s 30", "-n 30", "AGEMOEA", "-o prova" + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
+        test_out = subprocess.run(["python3", "/home/anna/Documenti/Uni/Tesi/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s 30", "-n 30", alg_name, "-o " + alg_des + '_' + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
         logLines = (test_out.stdout).split('\n')
 
         for s in logLines:
