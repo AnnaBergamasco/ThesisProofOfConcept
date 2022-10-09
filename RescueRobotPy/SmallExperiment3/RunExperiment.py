@@ -10,6 +10,8 @@ def main():
     parser.add_argument("alg", help="selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RNSGA3, TAEA, RANDOM]")
     args = parser.parse_args()
     alg_name = args.alg
+    pop_size = 30
+    n_generations = 30
 
     if alg_name == 'NSGA2':
         alg_des = 'nsga2'
@@ -17,6 +19,7 @@ def main():
         alg_des = 'nsga3'
     elif alg_name == 'MOEAD':
         alg_des = 'moead'
+        n_generations = 43
     elif alg_name == 'AGEMOEA':
         alg_des = 'agemoea'
     elif alg_name == 'UNSGA3':
@@ -25,6 +28,7 @@ def main():
         alg_des = 'rnsga3'
     elif alg_name == 'TAEA':
         alg_des = 'taea'
+        n_generations = 43
     elif alg_name == 'RANDOM':
         alg_des = 'random'
 
@@ -34,7 +38,7 @@ def main():
     avg_hi_bounds = [-10, -10, -10, -10, -10, -10]
 
     for i in range(1, 21):
-        test_out = subprocess.run(["python3", "/home/anna/Documenti/Uni/Tesi/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s 30", "-n 30", alg_name, "-o " + alg_des + '_' + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
+        test_out = subprocess.run(["python3", "/home/anna/Documenti/Uni/Tesi/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s " + str(pop_size), "-n " + str(n_generations), alg_name, "-o " + alg_des + '_' + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
         logLines = (test_out.stdout).split('\n')
 
         for s in logLines:

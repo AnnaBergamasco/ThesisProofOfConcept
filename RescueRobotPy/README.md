@@ -1,6 +1,6 @@
 # RescueRobotPy
 
-This is the python implementation, using both `JMetalPy` and `Pymoo`, the algorithm used is NSGA-II.
+This is the python implementation, using both `JMetalPy` and `Pymoo`.
 Here follow the explaination of each python script.
 
 For the implementations to work mbt_module_dir has to be changed to the local directory of the `MBT-module` at line 11 of the `sim_launcher.py` file.
