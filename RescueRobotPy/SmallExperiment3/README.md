@@ -14,6 +14,15 @@ The name of these files are of the type
 [name of the algorithm]_[number of the experiment].txt
 ```
 
+## Combined results files
+
+These are the results relative to each algorithm, in the form of intervals for both the average and the minimum metrics.
+
+The name of these files are of the type
+```
+[name of the algorithm]_results.txt
+```
+
 ## RunExperiment.py
 
 This is the code that runs the experiments given the algorithm and collects the 12 metrics. It also computes the extremes of two intervals for each variable: one containing the average values for that variable, the other containing the minimum values for that variable.
@@ -35,3 +44,13 @@ optional arguments:
 ## RadarPlot.py
 
 This is the script used by `RunExperiment.py` to generate the radar plot of the results of each algorithm. It inverts the signs of all the results to make the graph more legible since low values of the metrics are considered preferable.
+
+## Radar plots
+
+These are the plots of each algorithm results, showing the values of the interval's extremes for each metric, both minimum and average.
+
+The name of these files are of the type
+```
+[name of the algorithm]_radarPlot.png
+```
+

@@ -1,4 +1,5 @@
 
+from copy import copy
 import plotly.graph_objects as go
 
 
@@ -14,11 +15,11 @@ class RadarPlot():
 
   ):
     super(RadarPlot, self).__init__()
-
-    self.min_low_bounds = min_low_bounds
-    self.min_hi_bounds = min_hi_bounds
-    self.avg_low_bounds = avg_low_bounds
-    self.avg_hi_bounds = avg_hi_bounds
+    
+    self.min_low_bounds = copy(min_low_bounds)
+    self.min_hi_bounds = copy(min_hi_bounds)
+    self.avg_low_bounds = copy(avg_low_bounds)
+    self.avg_hi_bounds = copy(avg_hi_bounds)
 
     for i in range(0, 6):
       self.min_low_bounds[i] = -self.min_low_bounds[i]

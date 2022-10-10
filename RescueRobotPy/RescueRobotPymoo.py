@@ -187,7 +187,7 @@ class RescueRobotProblemA(ElementwiseProblem):
 def main():
 
     parser = argparse.ArgumentParser(description='Falsification with many-objective search.')
-    parser.add_argument("alg", help="selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RNSGA3, TAEA, RANDOM]")
+    parser.add_argument("alg", help="selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RNSGA3, CTAEA, RANDOM]")
     parser.add_argument("-a", "--alldist", action='store_true', help="enables var-wise fitness mode (default: region-wise)", required=False)
     parser.add_argument("-f", "--fast", action='store_true', help="enables fast mode", required=False)
     parser.add_argument("-s", "--size", type=int, help="population size", required=False, default=2)

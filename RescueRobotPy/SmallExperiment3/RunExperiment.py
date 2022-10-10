@@ -7,7 +7,7 @@ from RadarPlot import RadarPlot
 def main():
 
     parser = argparse.ArgumentParser(description='Experiment on falsification with many-objective search, with computation of minimun and average distances.')
-    parser.add_argument("alg", help="selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RNSGA3, TAEA, RANDOM]")
+    parser.add_argument("alg", help="selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RNSGA3, CTAEA, RANDOM]")
     args = parser.parse_args()
     alg_name = args.alg
     pop_size = 30
@@ -26,8 +26,8 @@ def main():
         alg_des = 'unsga3'
     elif alg_name == 'RNSGA3':
         alg_des = 'rnsga3'
-    elif alg_name == 'TAEA':
-        alg_des = 'taea'
+    elif alg_name == 'CTAEA':
+        alg_des = 'ctaea'
         n_generations = 43
     elif alg_name == 'RANDOM':
         alg_des = 'random'
@@ -38,7 +38,7 @@ def main():
     avg_hi_bounds = [-10, -10, -10, -10, -10, -10]
 
     for i in range(1, 21):
-        test_out = subprocess.run(["python3", "/home/anna/Documenti/Uni/Tesi/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s " + str(pop_size), "-n " + str(n_generations), alg_name, "-o " + alg_des + '_' + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
+        test_out = subprocess.run(["python3", "/home/anna/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s " + str(pop_size), "-n " + str(n_generations), alg_name, "-o " + alg_des + '_' + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
         logLines = (test_out.stdout).split('\n')
 
         for s in logLines:
@@ -110,6 +110,41 @@ def main():
 
     radarPlot = RadarPlot(min_low_bounds, min_hi_bounds, avg_low_bounds, avg_hi_bounds)
     radarPlot.makePlot()
+
+    output_file = alg_des + "_results.txt"
+
+    file = open(output_file, 'w')
+
+    file.write("[MINIMUM LOWER BOUND]\n")
+    file.write("\t[S0 e1 S1] " + str(min_low_bounds[0]) + "\n")
+    file.write("\t[S0 e1 S2] " + str(min_low_bounds[1]) + "\n")
+    file.write("\t[S0 e1 S6] " + str(min_low_bounds[2]) + "\n")
+    file.write("\t[S3 e1 S1] " + str(min_low_bounds[3]) + "\n")
+    file.write("\t[S3 e1 S4] " + str(min_low_bounds[4]) + "\n")
+    file.write("\t[S3 e1 S5] " + str(min_low_bounds[5]) + "\n")
+    file.write("[MINIMUM HIGER BOUND]\n")
+    file.write("\t[S0 e1 S1] " + str(min_hi_bounds[0]) + "\n")
+    file.write("\t[S0 e1 S2] " + str(min_hi_bounds[1]) + "\n")
+    file.write("\t[S0 e1 S6] " + str(min_hi_bounds[2]) + "\n")
+    file.write("\t[S3 e1 S1] " + str(min_hi_bounds[3]) + "\n")
+    file.write("\t[S3 e1 S4] " + str(min_hi_bounds[4]) + "\n")
+    file.write("\t[S3 e1 S5] " + str(min_hi_bounds[5]) + "\n")
+    file.write("[AVERAGE LOWER BOUND]\n")
+    file.write("\t[S0 e1 S1] " + str(avg_low_bounds[0]) + "\n")
+    file.write("\t[S0 e1 S2] " + str(avg_low_bounds[1]) + "\n")
+    file.write("\t[S0 e1 S6] " + str(avg_low_bounds[2]) + "\n")
+    file.write("\t[S3 e1 S1] " + str(avg_low_bounds[3]) + "\n")
+    file.write("\t[S3 e1 S4] " + str(avg_low_bounds[4]) + "\n")
+    file.write("\t[S3 e1 S5] " + str(avg_low_bounds[5]) + "\n")
+    file.write("[AVERAGE HIGER BOUND]\n")
+    file.write("\t[S0 e1 S1] " + str(avg_hi_bounds[0]) + "\n")
+    file.write("\t[S0 e1 S2] " + str(avg_hi_bounds[1]) + "\n")
+    file.write("\t[S0 e1 S6] " + str(avg_hi_bounds[2]) + "\n")
+    file.write("\t[S3 e1 S1] " + str(avg_hi_bounds[3]) + "\n")
+    file.write("\t[S3 e1 S4] " + str(avg_hi_bounds[4]) + "\n")
+    file.write("\t[S3 e1 S5] " + str(avg_hi_bounds[5]) + "\n")
+
+    file.close()
 
 if __name__ == "__main__":
     main()
