@@ -36,9 +36,10 @@ def main():
     min_hi_bounds = [-10, -10, -10, -10, -10, -10]
     avg_low_bounds = [10, 10, 10, 10, 10, 10]
     avg_hi_bounds = [-10, -10, -10, -10, -10, -10]
+    avg_avg = [0, 0, 0, 0, 0, 0]
 
     for i in range(1, 21):
-        test_out = subprocess.run(["python3", "/home/anna/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s " + str(pop_size), "-n " + str(n_generations), alg_name, "-o " + alg_des + '_' + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
+        test_out = subprocess.run(["python3", "/home/anna/Documenti/Uni/Tesi/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s " + str(pop_size), "-n " + str(n_generations), alg_name, "-o " + alg_des + '_' + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
         logLines = (test_out.stdout).split('\n')
 
         for s in logLines:
@@ -77,36 +78,43 @@ def main():
                 result = float(tokens[1].replace(" ", ""))
                 avg_low_bounds[0] = min(result, avg_low_bounds[0])
                 avg_hi_bounds[0] = max(result, avg_hi_bounds[0])
+                avg_avg[0] =  avg_avg[0] + (result - avg_avg[0])/i
             if s.__contains__("Average S0 e1 S2 distance: "):
                 tokens = s.split(':')
                 result = float(tokens[1].replace(" ", ""))
                 avg_low_bounds[1] = min(result, avg_low_bounds[1])
                 avg_hi_bounds[1] = max(result, avg_hi_bounds[1])
+                avg_avg[1] =  avg_avg[1] + (result - avg_avg[1])/i
             if s.__contains__("Average S0 e1 S6 distance: "):
                 tokens = s.split(':')
                 result = float(tokens[1].replace(" ", ""))
                 avg_low_bounds[2] = min(result, avg_low_bounds[2])
                 avg_hi_bounds[2] = max(result, avg_hi_bounds[2])
+                avg_avg[2] =  avg_avg[2] + (result - avg_avg[2])/i
             if s.__contains__("Average S3 e1 S1 distance: "):
                 tokens = s.split(':')
                 result = float(tokens[1].replace(" ", ""))
                 avg_low_bounds[3] = min(result, avg_low_bounds[3])
                 avg_hi_bounds[3] = max(result, avg_hi_bounds[3])
+                avg_avg[3] =  avg_avg[3] + (result - avg_avg[3])/i
             if s.__contains__("Average S3 e1 S4 distance: "):
                 tokens = s.split(':')
                 result = float(tokens[1].replace(" ", ""))
                 avg_low_bounds[4] = min(result, avg_low_bounds[4])
                 avg_hi_bounds[4] = max(result, avg_hi_bounds[4])
+                avg_avg[4] =  avg_avg[4] + (result - avg_avg[4])/i
             if s.__contains__("Average S3 e1 S5 distance: "):
                 tokens = s.split(':')
                 result = float(tokens[1].replace(" ", ""))
                 avg_low_bounds[5] = min(result, avg_low_bounds[5])
                 avg_hi_bounds[5] = max(result, avg_hi_bounds[5])
+                avg_avg[5] =  avg_avg[5] + (result - avg_avg[5])/i
 
     print(min_low_bounds)
     print(min_hi_bounds)       
     print(avg_low_bounds)
-    print(avg_hi_bounds) 
+    print(avg_hi_bounds)
+    print(avg_avg) 
 
     radarPlot = RadarPlot(min_low_bounds, min_hi_bounds, avg_low_bounds, avg_hi_bounds)
     radarPlot.makePlot()
@@ -143,6 +151,13 @@ def main():
     file.write("\t[S3 e1 S1] " + str(avg_hi_bounds[3]) + "\n")
     file.write("\t[S3 e1 S4] " + str(avg_hi_bounds[4]) + "\n")
     file.write("\t[S3 e1 S5] " + str(avg_hi_bounds[5]) + "\n")
+    file.write("[AVERAGE]\n")
+    file.write("\t[S0 e1 S1] " + str(avg_avg[0]) + "\n")
+    file.write("\t[S0 e1 S2] " + str(avg_avg[1]) + "\n")
+    file.write("\t[S0 e1 S6] " + str(avg_avg[2]) + "\n")
+    file.write("\t[S3 e1 S1] " + str(avg_avg[3]) + "\n")
+    file.write("\t[S3 e1 S4] " + str(avg_avg[4]) + "\n")
+    file.write("\t[S3 e1 S5] " + str(avg_avg[5]) + "\n")
 
     file.close()
 
