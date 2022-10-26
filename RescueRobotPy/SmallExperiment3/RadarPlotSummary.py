@@ -41,6 +41,14 @@ fig1.add_trace(go.Scatterpolar(
     name = 'min AGE-MOEA'
 ))
 
+fig1.add_trace(go.Scatterpolar(
+    r = [0.007583333352022664, -0.009112870138011098, 0.0028311057217337184, 9.99999999999994e-05, 0.0, 9.999999999998899e-05],
+    theta = categories,
+    fill = 'toself',
+    name = 'min MOEA-D'
+))
+
+
 fig1.update_layout(
     polar = dict (radialaxis = dict(
         visible = True,
@@ -86,6 +94,13 @@ fig2.add_trace(go.Scatterpolar(
     theta = categories,
     fill = 'toself',
     name = 'avg AGE-MOEA'
+))
+
+fig2.add_trace(go.Scatterpolar(
+    r = [0.011335967106192134, 0.014156274558110884, 0.007217672360829588, 0.0035046707589285703, 0.000764933035714286, 0.004269603794642866],
+    theta = categories,
+    fill = 'toself',
+    name = 'avg MOEA-D'
 ))
 
 fig2.update_layout(

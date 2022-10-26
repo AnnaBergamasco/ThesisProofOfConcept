@@ -261,6 +261,7 @@ def main():
 
     elif alg_name == "MOEAD":
         print("Selected algorithm: MOEA-D.")
+        partitions = 3
         ref_dirs = get_reference_directions("das-dennis", numb_obj, n_partitions=partitions)
         algorithm = MOEAD(
             n_offsprings= None,

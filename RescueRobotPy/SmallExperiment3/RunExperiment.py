@@ -19,7 +19,7 @@ def main():
         alg_des = 'nsga3'
     elif alg_name == 'MOEAD':
         alg_des = 'moead'
-        n_generations = 43
+        n_generations = 16
     elif alg_name == 'AGEMOEA':
         alg_des = 'agemoea'
     elif alg_name == 'UNSGA3':
