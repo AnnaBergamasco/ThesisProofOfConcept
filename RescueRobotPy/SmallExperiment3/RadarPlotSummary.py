@@ -28,6 +28,15 @@ avgMOEAD = [-0.011335967106192134, -0.014156274558110884, -0.007217672360829588,
 
 avgValues = [avgRANDOM, avgNSGA3, avgUNSGA3, avgCTAEA, avgAGEMOEA, avgMOEAD]
 
+maxRANDOM = [-0.00832366367654425, -0.00536216189419747, -0.003791181407659869, -9.99999999999994e-05, -0.0, -9.999999999998899e-05]
+maxNSGA3 = [-0.00888343089937076, -0.00022660973959387487, -0.005006608559038089, -9.99999999999994e-05, -0.0, -9.999999999998899e-05]
+maxUNSGA3 = [-0.008167688508913713, 0.002362777870604238, -0.003953557298686003, -9.99999999999994e-05, -0.0, -9.999999999998899e-05]
+maxCTAEA = [-0.009864628571415322, 0.005067861308424848, -0.00544545129103369, -9.99999999999994e-05, -0.0, -9.999999999998899e-05]
+maxAGEMOEA = [-0.007683344392174712, 0.008126892252376727, -0.003500266762905313, -9.99999999999994e-05, -0.0, -9.999999999998899e-05]
+maxMOEAD = [-0.009858079647716386, -0.015044053285287684, -0.005174612106262479, -0.0005000000000000004, -0.0, -0.000500000000000056]
+
+maxValues = [maxRANDOM, maxNSGA3, maxUNSGA3, maxCTAEA, maxAGEMOEA, maxMOEAD]
+
 scaler = MinMaxScaler()
 scaler.fit(minValues)
 minValues = scaler.transform(minValues)
@@ -35,6 +44,10 @@ minValues = scaler.transform(minValues)
 scaler = MinMaxScaler()
 scaler.fit(avgValues)
 avgValues = scaler.transform(avgValues)
+
+scaler = MinMaxScaler()
+scaler.fit(maxValues)
+maxValues = scaler.transform(maxValues)
 
 minRANDOM = minValues[0]
 minNSGA3 = minValues[1]
@@ -49,6 +62,13 @@ avgUNSGA3 = avgValues[2]
 avgCTAEA = avgValues[3]
 avgAGEMOEA = avgValues[4]
 avgMOEAD = avgValues[5]
+
+maxRANDOM = maxValues[0]
+maxNSGA3 = maxValues[1]
+maxUNSGA3 = maxValues[2]
+maxCTAEA = maxValues[3]
+maxAGEMOEA = maxValues[4]
+maxMOEAD = maxValues[5]
 
 fig1.add_trace(go.Scatterpolar(
     r =
@@ -158,3 +178,57 @@ fig2.update_layout(
 )
 
 fig2.show()
+
+fig3 = go.Figure()
+
+fig3.add_trace(go.Scatterpolar(
+    r = maxRANDOM,
+    theta = categories,
+    fill = 'none',
+    name = 'max RANDOM'
+))
+
+fig3.add_trace(go.Scatterpolar(
+    r = maxNSGA3,
+    theta = categories,
+    fill = 'none',
+    name = 'max NSGA-III'
+))
+
+fig3.add_trace(go.Scatterpolar(
+    r = maxUNSGA3,
+    theta = categories,
+    fill = 'none',
+    name = 'max U-NSGA-III'
+))
+
+fig3.add_trace(go.Scatterpolar(
+    r = maxCTAEA,
+    theta = categories,
+    fill = 'none',
+    name = 'max C-TAEA'
+))
+
+fig3.add_trace(go.Scatterpolar(
+    r = maxAGEMOEA,
+    theta = categories,
+    fill = 'none',
+    name = 'max AGE-MOEA'
+))
+
+fig3.add_trace(go.Scatterpolar(
+    r = maxMOEAD,
+    theta = categories,
+    fill = 'none',
+    name = 'max MOEA-D'
+))
+
+fig3.update_layout(
+    polar = dict (radialaxis = dict(
+        visible = True,
+        range = [0.0, 1.0]
+    )),
+    showlegend = True
+)
+
+fig3.show()
