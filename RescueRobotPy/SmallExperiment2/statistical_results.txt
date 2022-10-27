@@ -1,0 +1,96 @@
+[RANDOM]
+	[NSGA-III]
+		p-value: 1.327563353002246e-08
+		effect size: 0.96125
+	[U-NSGA-III]
+		p-value: 5.803555641539874e-11
+		effect size: 0.995
+	[AGE-MOEA]
+		p-value: 1.327563353002246e-08
+		effect size: 0.96125
+	[C-TAEA]
+		p-value: 1.327563353002246e-08
+		effect size: 0.96125
+	[MOEA-D]
+		p-value: 0.20119448043711713
+		effect size: 0.38
+[NSGA-III]
+	[RANDOM]
+		p-value: 1.327563353002246e-08
+		effect size: 0.03875
+	[U-NSGA-III]
+		p-value: 0.6016618856344154
+		effect size: 0.45
+	[AGE-MOEA]
+		p-value: 8.341160345803184e-08
+		effect size: 0.94375
+	[C-TAEA]
+		p-value: 0.0032109306327036164
+		effect size: 0.76875
+	[MOEA-D]
+		p-value: 0.0019571244942430312
+		effect size: 0.22
+[U-NSGA-III]
+	[RANDOM]
+		p-value: 5.803555641539874e-11
+		effect size: 0.005
+	[NSGA-III]
+		p-value: 0.6016618856344154
+		effect size: 0.55
+	[AGE-MOEA]
+		p-value: 3.937712502784805e-08
+		effect size: 0.95
+	[C-TAEA]
+		p-value: 0.0001360863284740056
+		effect size: 0.83875
+	[MOEA-D]
+		p-value: 0.0008357657823247607
+		effect size: 0.2
+[AGE-MOEA]
+	[RANDOM]
+		p-value: 1.327563353002246e-08
+		effect size: 0.03875
+	[NSGA-III]
+		p-value: 8.341160345803184e-08
+		effect size: 0.05625
+	[U-NSGA-III]
+		p-value: 3.937712502784805e-08
+		effect size: 0.05
+	[C-TAEA]
+		p-value: 1.1260929189061893e-06
+		effect size: 0.08625
+	[MOEA-D]
+		p-value: 0.0011600732885251911
+		effect size: 0.2075
+[C-TAEA]
+	[RANDOM]
+		p-value: 1.327563353002246e-08
+		effect size: 0.03875
+	[NSGA-III]
+		p-value: 0.0032109306327036164
+		effect size: 0.23125
+	[U-NSGA-III]
+		p-value: 0.0001360863284740056
+		effect size: 0.16125
+	[AGE-MOEA]
+		p-value: 1.1260929189061893e-06
+		effect size: 0.91375
+	[MOEA-D]
+		p-value: 0.0019571244942430312
+		effect size: 0.22
+[MOEA-D]
+	[RANDOM]
+		p-value: 0.20119448043711713
+		effect size: 0.62
+	[NSGA-III]
+		p-value: 0.0019571244942430312
+		effect size: 0.78
+	[U-NSGA-III]
+		p-value: 0.0008357657823247607
+		effect size: 0.8
+	[AGE-MOEA]
+		p-value: 0.0011600732885251911
+		effect size: 0.7925
+	[C-TAEA]
+		p-value: 0.0019571244942430312
+		effect size: 0.78
