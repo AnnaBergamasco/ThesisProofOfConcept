@@ -10,3 +10,9 @@ RescueRobotGA/target/classes/AlgorithmRunner.class
 RescueRobotGA/target/classes/RRProblemMinObjective.class
 RescueRobotGA/target/classes/SimulatorRunner.class
 RescueRobotPy/SmallExperiment3/__pycache__/RadarPlot.cpython-38.pyc
+RescueRobotPy/SmallExperiment3/__pycache__/RunSingleExperiment.cpython-38.pyc
+RescueRobotPy/SmallExperiment3/RunExperiment.py
+RescueRobotPy/SmallExperiment3/__pycache__/RadarPlotAlgorithms.cpython-38.pyc
+ random_1.txt
+.gitignore
+RescueRobotPy/SmallExperiment3/__pycache__/RadarPlotSummary.cpython-38.pyc

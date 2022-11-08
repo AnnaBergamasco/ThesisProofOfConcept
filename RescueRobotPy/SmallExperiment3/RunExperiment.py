@@ -1,165 +1,94 @@
+from RunSingleExperiment import RunSingleExperiment
+from sklearn.preprocessing import MinMaxScaler
+import statistics
+import numpy as np
+from RadarPlotAlgorithms import RadarPlotAlgorithms
+from RadarPlotSummary import RadarPlotSummary
 
-import argparse
-import subprocess
-from RadarPlot import RadarPlot
+def summarizeData(alg_severities) -> list:
 
+    summary = [[], [], [], [], []]
+    
+    for i in range(0, 6):
+        summary[0] = summary[0] + [min(alg_severities[0][i])]
+        summary[1] = summary[1] + [max(alg_severities[0][i])]
+        summary[2] = summary[2] + [min(alg_severities[1][i])]
+        summary[3] = summary[3] + [max(alg_severities[1][i])]
+        summary[4] = summary[4] + [statistics.mean(alg_severities[1][i])]
+
+    return summary
 
 def main():
 
-    parser = argparse.ArgumentParser(description='Experiment on falsification with many-objective search, with computation of minimun and average distances.')
-    parser.add_argument("alg", help="selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RNSGA3, CTAEA, RANDOM]")
-    args = parser.parse_args()
-    alg_name = args.alg
-    pop_size = 30
-    n_generations = 30
+    runner = RunSingleExperiment()
 
-    if alg_name == 'NSGA2':
-        alg_des = 'nsga2'
-    elif alg_name == 'NSGA3':
-        alg_des = 'nsga3'
-    elif alg_name == 'MOEAD':
-        alg_des = 'moead'
-        n_generations = 16
-    elif alg_name == 'AGEMOEA':
-        alg_des = 'agemoea'
-    elif alg_name == 'UNSGA3':
-        alg_des = 'unsga3'
-    elif alg_name == 'RNSGA3':
-        alg_des = 'rnsga3'
-    elif alg_name == 'CTAEA':
-        alg_des = 'ctaea'
-        n_generations = 43
-    elif alg_name == 'RANDOM':
-        alg_des = 'random'
+    random_raw = runner.runWithAlgorithm('RANDOM')
+    nsga3_raw = runner.runWithAlgorithm('NSGA3')
+    unsga3_raw = runner.runWithAlgorithm('UNSGA3')
+    moead_raw = runner.runWithAlgorithm('MOEAD')
+    ctaea_raw = runner.runWithAlgorithm('CTAEA')
+    agemoea_raw = runner.runWithAlgorithm('AGEMOEA')
 
-    min_low_bounds = [10, 10, 10, 10, 10, 10]
-    min_hi_bounds = [-10, -10, -10, -10, -10, -10]
-    avg_low_bounds = [10, 10, 10, 10, 10, 10]
-    avg_hi_bounds = [-10, -10, -10, -10, -10, -10]
-    avg_avg = [0, 0, 0, 0, 0, 0]
+    random_scaled = [[], []]
+    nsga3_scaled = [[], []]
+    unsga3_scaled = [[], []]
+    moead_scaled = [[], []]
+    ctaea_scaled = [[], []]
+    agemoea_scaled = [[], []]
+    scaling_set = [[], [], [], [], [], []]
 
-    for i in range(1, 21):
-        test_out = subprocess.run(["python3", "/home/anna/Documenti/Uni/Tesi/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s " + str(pop_size), "-n " + str(n_generations), alg_name, "-o " + alg_des + '_' + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
-        logLines = (test_out.stdout).split('\n')
+    for i in range(0, 6):
+        scaling_set[i] = random_raw[0][i] + random_raw[1][i] + nsga3_raw[0][i] + nsga3_raw[1][i] + unsga3_raw[0][i] + unsga3_raw[1][i] + moead_raw[0][i] + moead_raw[1][i] + ctaea_raw[0][i] + ctaea_raw[1][i] + agemoea_raw[0][i] + agemoea_raw[1][i]
+    
+    scaling_set = np.array(scaling_set)
+    scaling_set = scaling_set.transpose()
+    scaler = MinMaxScaler()
+    scaler.fit(scaling_set)
 
-        for s in logLines:
-            if s.__contains__("Minimum S0 e1 S1 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                min_low_bounds[0] = min(result, min_low_bounds[0])
-                min_hi_bounds[0] = max(result, min_hi_bounds[0])
-            if s.__contains__("Minimum S0 e1 S2 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                min_low_bounds[1] = min(result, min_low_bounds[1])
-                min_hi_bounds[1] = max(result, min_hi_bounds[1])
-            if s.__contains__("Minimum S0 e1 S6 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                min_low_bounds[2] = min(result, min_low_bounds[2])
-                min_hi_bounds[2] = max(result, min_hi_bounds[2])
-            if s.__contains__("Minimum S3 e1 S1 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                min_low_bounds[3] = min(result, min_low_bounds[3])
-                min_hi_bounds[3] = max(result, min_hi_bounds[3])
-            if s.__contains__("Minimum S3 e1 S4 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                min_low_bounds[4] = min(result, min_low_bounds[4])
-                min_hi_bounds[4] = max(result, min_hi_bounds[4])
-            if s.__contains__("Minimum S3 e1 S5 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                min_low_bounds[5] = min(result, min_low_bounds[5])
-                min_hi_bounds[5] = max(result, min_hi_bounds[5])
-            if s.__contains__("Average S0 e1 S1 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                avg_low_bounds[0] = min(result, avg_low_bounds[0])
-                avg_hi_bounds[0] = max(result, avg_hi_bounds[0])
-                avg_avg[0] =  avg_avg[0] + (result - avg_avg[0])/i
-            if s.__contains__("Average S0 e1 S2 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                avg_low_bounds[1] = min(result, avg_low_bounds[1])
-                avg_hi_bounds[1] = max(result, avg_hi_bounds[1])
-                avg_avg[1] =  avg_avg[1] + (result - avg_avg[1])/i
-            if s.__contains__("Average S0 e1 S6 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                avg_low_bounds[2] = min(result, avg_low_bounds[2])
-                avg_hi_bounds[2] = max(result, avg_hi_bounds[2])
-                avg_avg[2] =  avg_avg[2] + (result - avg_avg[2])/i
-            if s.__contains__("Average S3 e1 S1 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                avg_low_bounds[3] = min(result, avg_low_bounds[3])
-                avg_hi_bounds[3] = max(result, avg_hi_bounds[3])
-                avg_avg[3] =  avg_avg[3] + (result - avg_avg[3])/i
-            if s.__contains__("Average S3 e1 S4 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                avg_low_bounds[4] = min(result, avg_low_bounds[4])
-                avg_hi_bounds[4] = max(result, avg_hi_bounds[4])
-                avg_avg[4] =  avg_avg[4] + (result - avg_avg[4])/i
-            if s.__contains__("Average S3 e1 S5 distance: "):
-                tokens = s.split(':')
-                result = float(tokens[1].replace(" ", ""))
-                avg_low_bounds[5] = min(result, avg_low_bounds[5])
-                avg_hi_bounds[5] = max(result, avg_hi_bounds[5])
-                avg_avg[5] =  avg_avg[5] + (result - avg_avg[5])/i
 
-    print(min_low_bounds)
-    print(min_hi_bounds)       
-    print(avg_low_bounds)
-    print(avg_hi_bounds)
-    print(avg_avg) 
+    for j in range(0, 2):
+        random_scaled[j] = np.array(scaler.transform(np.array(random_raw[j]).transpose())).transpose().tolist()
+        nsga3_scaled[j] = np.array(scaler.transform(np.array(nsga3_raw[j]).transpose())).transpose().tolist()
+        unsga3_scaled[j] = np.array(scaler.transform(np.array(unsga3_raw[j]).transpose())).transpose().tolist()
+        moead_scaled[j] = np.array(scaler.transform(np.array(moead_raw[j]).transpose())).transpose().tolist()
+        ctaea_scaled[j] = np.array(scaler.transform(np.array(ctaea_raw[j]).transpose())).transpose().tolist()
+        agemoea_scaled[j] = np.array(scaler.transform(np.array(agemoea_raw[j]).transpose())).transpose().tolist()
+    
+    
+    nsga3_summary = summarizeData(nsga3_scaled)
+    plot_algorithms = RadarPlotAlgorithms(nsga3_summary[0], nsga3_summary[1], nsga3_summary[2], nsga3_summary[3])
+    plot_algorithms.makePlot()
+    unsga3_summary = summarizeData(unsga3_scaled)
+    plot_algorithms = RadarPlotAlgorithms(unsga3_summary[0], unsga3_summary[1], unsga3_summary[2], unsga3_summary[3])
+    plot_algorithms.makePlot()
+    agemoea_summary = summarizeData(agemoea_scaled)
+    plot_algorithms = RadarPlotAlgorithms(agemoea_summary[0], agemoea_summary[1], agemoea_summary[2], agemoea_summary[3])
+    plot_algorithms.makePlot()
+    ctaea_summary = summarizeData(ctaea_scaled)
+    plot_algorithms = RadarPlotAlgorithms(ctaea_summary[0], ctaea_summary[1], ctaea_summary[2], ctaea_summary[3])
+    plot_algorithms.makePlot()
+    moead_summary = summarizeData(moead_scaled)
+    plot_algorithms = RadarPlotAlgorithms(moead_summary[0], moead_summary[1], moead_summary[2], moead_summary[3])
+    plot_algorithms.makePlot()
+    random_summary = summarizeData(random_scaled)
+    plot_algorithms = RadarPlotAlgorithms(random_summary[0], random_summary[1], random_summary[2], random_summary[3])
+    plot_algorithms.makePlot()
 
-    radarPlot = RadarPlot(min_low_bounds, min_hi_bounds, avg_low_bounds, avg_hi_bounds)
-    radarPlot.makePlot()
+    plot_summary = RadarPlotSummary([nsga3_summary[1],
+            unsga3_summary[1],
+            agemoea_summary[1],
+            ctaea_summary[1],
+            moead_summary[1],
+            random_summary[1]],
+        [nsga3_summary[4],
+            unsga3_summary[4],
+            agemoea_summary[4],
+            ctaea_summary[4],
+            moead_summary[4],
+            random_summary[4]] )
+    
+    plot_summary.makePlot()
 
-    output_file = alg_des + "_results.txt"
-
-    file = open(output_file, 'w')
-
-    file.write("[MINIMUM LOWER BOUND]\n")
-    file.write("\t[S0 e1 S1] " + str(min_low_bounds[0]) + "\n")
-    file.write("\t[S0 e1 S2] " + str(min_low_bounds[1]) + "\n")
-    file.write("\t[S0 e1 S6] " + str(min_low_bounds[2]) + "\n")
-    file.write("\t[S3 e1 S1] " + str(min_low_bounds[3]) + "\n")
-    file.write("\t[S3 e1 S4] " + str(min_low_bounds[4]) + "\n")
-    file.write("\t[S3 e1 S5] " + str(min_low_bounds[5]) + "\n")
-    file.write("[MINIMUM HIGER BOUND]\n")
-    file.write("\t[S0 e1 S1] " + str(min_hi_bounds[0]) + "\n")
-    file.write("\t[S0 e1 S2] " + str(min_hi_bounds[1]) + "\n")
-    file.write("\t[S0 e1 S6] " + str(min_hi_bounds[2]) + "\n")
-    file.write("\t[S3 e1 S1] " + str(min_hi_bounds[3]) + "\n")
-    file.write("\t[S3 e1 S4] " + str(min_hi_bounds[4]) + "\n")
-    file.write("\t[S3 e1 S5] " + str(min_hi_bounds[5]) + "\n")
-    file.write("[AVERAGE LOWER BOUND]\n")
-    file.write("\t[S0 e1 S1] " + str(avg_low_bounds[0]) + "\n")
-    file.write("\t[S0 e1 S2] " + str(avg_low_bounds[1]) + "\n")
-    file.write("\t[S0 e1 S6] " + str(avg_low_bounds[2]) + "\n")
-    file.write("\t[S3 e1 S1] " + str(avg_low_bounds[3]) + "\n")
-    file.write("\t[S3 e1 S4] " + str(avg_low_bounds[4]) + "\n")
-    file.write("\t[S3 e1 S5] " + str(avg_low_bounds[5]) + "\n")
-    file.write("[AVERAGE HIGER BOUND]\n")
-    file.write("\t[S0 e1 S1] " + str(avg_hi_bounds[0]) + "\n")
-    file.write("\t[S0 e1 S2] " + str(avg_hi_bounds[1]) + "\n")
-    file.write("\t[S0 e1 S6] " + str(avg_hi_bounds[2]) + "\n")
-    file.write("\t[S3 e1 S1] " + str(avg_hi_bounds[3]) + "\n")
-    file.write("\t[S3 e1 S4] " + str(avg_hi_bounds[4]) + "\n")
-    file.write("\t[S3 e1 S5] " + str(avg_hi_bounds[5]) + "\n")
-    file.write("[AVERAGE]\n")
-    file.write("\t[S0 e1 S1] " + str(avg_avg[0]) + "\n")
-    file.write("\t[S0 e1 S2] " + str(avg_avg[1]) + "\n")
-    file.write("\t[S0 e1 S6] " + str(avg_avg[2]) + "\n")
-    file.write("\t[S3 e1 S1] " + str(avg_avg[3]) + "\n")
-    file.write("\t[S3 e1 S4] " + str(avg_avg[4]) + "\n")
-    file.write("\t[S3 e1 S5] " + str(avg_avg[5]) + "\n")
-
-    file.close()
 
 if __name__ == "__main__":
     main()
