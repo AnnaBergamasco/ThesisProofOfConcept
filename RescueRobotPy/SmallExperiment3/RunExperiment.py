@@ -4,6 +4,7 @@ import statistics
 import numpy as np
 from RadarPlotAlgorithms import RadarPlotAlgorithms
 from RadarPlotSummary import RadarPlotSummary
+from BoxPlot import BoxPlotVariables
 
 def summarizeData(alg_severities) -> list:
 
@@ -54,7 +55,10 @@ def main():
         ctaea_scaled[j] = np.array(scaler.transform(np.array(ctaea_raw[j]).transpose())).transpose().tolist()
         agemoea_scaled[j] = np.array(scaler.transform(np.array(agemoea_raw[j]).transpose())).transpose().tolist()
     
-    
+    for i in range(0, 6):
+        plot_scaled = BoxPlotVariables(nsga3_scaled[0][i], unsga3_scaled[0][i], agemoea_scaled[0][i], ctaea_scaled[0][i], moead_scaled[0][i], random_scaled[0][i])
+        plot_scaled.makePlot()
+
     nsga3_summary = summarizeData(nsga3_scaled)
     plot_algorithms = RadarPlotAlgorithms(nsga3_summary[0], nsga3_summary[1], nsga3_summary[2], nsga3_summary[3])
     plot_algorithms.makePlot()
