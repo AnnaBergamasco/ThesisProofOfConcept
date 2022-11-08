@@ -10,7 +10,11 @@ fig1 = go.Figure(data=go.Heatmap(
                    z=pvalue_map,
                    x=['RANDOM', 'NSGA-3', 'U-NSGA-3', 'C-TAEA', 'AGE-MOEA'],
                    y=['MOEA-D', 'AGE-MOEA', 'C-TAEA', 'U-NSGA-3', 'NSGA-3'],
-                   hoverongaps = False))
+                   hoverongaps = False,
+                   colorscale='Reds',
+                   text= pvalue_map,
+                   texttemplate="%{text}",
+                   textfont={"size":20}))
 fig1.show()
 
 effect_size_map = [[0.62, 0.78, 0.8, 0.7925, 0.78, None], 
@@ -24,6 +28,10 @@ fig2 = go.Figure(data=go.Heatmap(
                    z=effect_size_map,
                    x=['RANDOM', 'NSGA-3', 'U-NSGA-3', 'AGE-MOEA', 'C-TAEA', 'MOEA-D'],
                    y=['MOEA-D', 'C-TAEA', 'AGE-MOEA', 'U-NSGA-3', 'NSGA-3', 'RANDOM'],
-                   hoverongaps = False))
+                   hoverongaps = False,
+                   colorscale='Reds',
+                   text=effect_size_map,
+                   texttemplate="%{text}",
+                   textfont={"size":20}))
 
 fig2.show()
