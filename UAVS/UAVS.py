@@ -45,6 +45,8 @@ class UAVSProblem(ElementwiseProblem):
         self.evaluationNumber = 0
         self.fast = 0
 
+        self.disequilibrium_count = 0
+
         #TODO: add metrics
     
     def _evaluate(self, x, out, *args, **kwargs):
@@ -85,6 +87,11 @@ class UAVSProblem(ElementwiseProblem):
             f4[1],
             f4[2]]
         out["G"] = []
+
+        for o in out["F"]:
+            if o < 0.0:
+                self.disequilibrium_count += 1
+                break
 
 
 def main():
@@ -180,6 +187,7 @@ def main():
 
     elif alg_name == "RANDOM":
         n_tries = population_size * niterations
+        n_disequilibrium = 0
 
         for i in range(1, n_tries + 1):
 
@@ -191,30 +199,37 @@ def main():
             ranget = random.uniform(1.0, 4.0)
             nthreat = random.randint(1, 10)
 
-        sim = SimulatorRunnerUAVS(formation=formation, speed=speed, counter=counter, weather=weather, time=time, ranget=ranget, nthreat=nthreat)
+            sim = SimulatorRunnerUAVS(formation=formation, speed=speed, counter=counter, weather=weather, time=time, ranget=ranget, nthreat=nthreat)
 
-        if args.fast:
-            sim.runSimulatorFast()
+            if args.fast:
+                sim.runSimulatorFast()
         
-        f1 = sim.getT1Distances()
-        f2 = sim.getT2Distances()
-        f3 = sim.getT3Distances()
-        f4 = sim.getT4Distances()
+            f1 = sim.getT1Distances()
+            f2 = sim.getT2Distances()
+            f3 = sim.getT3Distances()
+            f4 = sim.getT4Distances()
 
-        results = [f1[0],
-            f1[1],
-            f1[2],
-            f2[0],
-            f2[1],
-            f2[2],
-            f2[3],
-            f3[0],
-            f3[1],
-            f3[2],
-            f3[3],
-            f4[0],
-            f4[1],
-            f4[2]]
+            results = [f1[0],
+                f1[1],
+                f1[2],
+                f2[0],
+                f2[1],
+                f2[2],
+                f2[3],
+                f3[0],
+                f3[1],
+                f3[2],
+                f3[3],
+                f4[0],
+                f4[1],
+                f4[2]]
+        
+            for o in results:
+                    if o < 0.0:
+                        n_disequilibrium += 1
+                        break
+    
+        print("Disequilibrium count: {}".format(n_disequilibrium))
     
     else:
         raise ValueError("Invalid algorithm (use -h to see the valid options).")
@@ -235,14 +250,18 @@ def main():
         X = res.X
         F = res.F
 
+        print("Disequilibrium count: {}".format(problem.disequilibrium_count))
+
     if args.output_file:
 
         file = open(args.output_file, 'w')
 
+        file.write("[METRICS]\n")
         if alg_name == 'RANDOM':
-            file.write('random')
+            file.write("\t[DISEQUILIBRIUM COUNT] " + str(n_disequilibrium) + "\n")
             
         else: 
+            file.write("\t[DISEQUILIBRIUM COUNT] " + str(problem.disequilibrium_count) + "\n")
             file.write("[VARIABLES]\n")
             ind = 0
             for x in X:
