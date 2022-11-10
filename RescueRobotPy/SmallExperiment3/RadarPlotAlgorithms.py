@@ -1,6 +1,7 @@
 
 from copy import copy
-import plotly.graph_objects as go
+import plotly.express as px
+import pandas as pd
 
 
 class RadarPlotAlgorithms():
@@ -25,46 +26,20 @@ class RadarPlotAlgorithms():
   def makePlot(self) -> None:
 
     categories = ['S0 e1 S1','S0 e1 S2', 'S0 e1 S6', 'S3 e1 S1', 'S3 e1 S4', 'S3 e1 S5']
-
+    theta = categories + categories + categories + categories
+    color = ['max severity low bound', 'max severity low bound', 'max severity low bound', 'max severity low bound', 'max severity low bound', 'max severity low bound',
+        'max severity hi bound','max severity hi bound','max severity hi bound','max severity hi bound','max severity hi bound','max severity hi bound',
+        'avg severity low bound','avg severity low bound','avg severity low bound','avg severity low bound','avg severity low bound','avg severity low bound',
+        'avg severity hi bound','avg severity hi bound','avg severity hi bound','avg severity hi bound','avg severity hi bound','avg severity hi bound']
+    r = self.max_sev_low_bounds + self.max_sev_hi_bounds + self.avg_sev_low_bounds + self.avg_sev_hi_bounds
+    
+    df = pd.DataFrame(dict(
+      color=color,
+      r= r,
+      theta=theta))
     
 
-    fig = go.Figure()
-
-    fig.add_trace(go.Scatterpolar(
-          r= self.max_sev_low_bounds,
-          theta=categories,
-          fill='none',
-          name='maximum severity lower bounds'
-    ))
+    fig = px.line_polar(df, r='r', theta='theta', color='color', line_close=True)
     
-    fig.add_trace(go.Scatterpolar(
-          r= self.max_sev_hi_bounds,
-          theta=categories,
-          fill='none',
-          name='maximum severity higher bounds'
-    ))
-
-    fig.add_trace(go.Scatterpolar(
-          r= self.avg_sev_low_bounds,
-          theta=categories,
-          fill='none',
-          name='average severity lower bounds'
-    ))
-
-    fig.add_trace(go.Scatterpolar(
-          r= self.avg_sev_hi_bounds,
-          theta=categories,
-          fill='none',
-          name='average severity higher bounds'
-    ))
-
-    fig.update_layout(
-      polar=dict(
-        radialaxis=dict(
-          visible=True,
-          range=[0.0, 1.0]
-        )),
-      showlegend=True
-    )
-
+    
     fig.show()

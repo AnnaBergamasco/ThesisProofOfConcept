@@ -1,6 +1,7 @@
 
 from copy import copy
-import plotly.graph_objects as go
+import plotly.express as px
+import pandas as pd
 
 
 class RadarPlotSummary():
@@ -22,114 +23,36 @@ class RadarPlotSummary():
 
     categories = ['S0 e1 S1','S0 e1 S2', 'S0 e1 S6', 'S3 e1 S1', 'S3 e1 S4', 'S3 e1 S5']
 
+    theta = categories + categories + categories + categories + categories + categories
+
+    rfig1 = self.max_sev[0] + self.max_sev[1] + self.max_sev[2] +self.max_sev[3] +self.max_sev[4] +self.max_sev[5]
+    rfig2 = self.avg_sev[0] + self.avg_sev[1] + self.avg_sev[2] +self.avg_sev[3] +self.avg_sev[4] +self.avg_sev[5]
+
+    color = ['NSGA-III', 'NSGA-III', 'NSGA-III', 'NSGA-III', 'NSGA-III', 'NSGA-III',
+      'U-NSGA-III', 'U-NSGA-III', 'U-NSGA-III', 'U-NSGA-III', 'U-NSGA-III', 'U-NSGA-III',
+      'AGE-MOEA', 'AGE-MOEA', 'AGE-MOEA', 'AGE-MOEA', 'AGE-MOEA', 'AGE-MOEA',
+      'C-TAEA', 'C-TAEA', 'C-TAEA', 'C-TAEA', 'C-TAEA', 'C-TAEA',
+      'MOEAD', 'MOEAD', 'MOEAD', 'MOEAD', 'MOEAD', 'MOEAD',
+      'RANDOM', 'RANDOM', 'RANDOM', 'RANDOM', 'RANDOM', 'RANDOM']
+
+    df1 = pd.DataFrame(dict(
+      color=color,
+      r= rfig1,
+      theta=theta))
     
 
-    fig1 = go.Figure()
-
-    fig1.add_trace(go.Scatterpolar(
-          r= self.max_sev[0],
-          theta=categories,
-          fill='none',
-          name='NSGA-III'
-    ))
+    fig1 = px.line_polar(df1, r='r', theta='theta', color='color', line_close=True)
     
-    fig1.add_trace(go.Scatterpolar(
-          r= self.max_sev[1],
-          theta=categories,
-          fill='none',
-          name='U-NSGA-III'
-    ))
-
-    fig1.add_trace(go.Scatterpolar(
-          r= self.max_sev[2],
-          theta=categories,
-          fill='none',
-          name='AGE-MOEA'
-    ))
-
-    fig1.add_trace(go.Scatterpolar(
-          r= self.max_sev[3],
-          theta=categories,
-          fill='none',
-          name='C-TAEA'
-    ))
-
-    fig1.add_trace(go.Scatterpolar(
-          r= self.max_sev[4],
-          theta=categories,
-          fill='none',
-          name='MOEA-D'
-    ))
-
-    fig1.add_trace(go.Scatterpolar(
-          r= self.max_sev[5],
-          theta=categories,
-          fill='none',
-          name='RANDOM'
-    ))
-
-    fig1.update_layout(
-      polar=dict(
-        radialaxis=dict(
-          visible=True,
-          range=[0.0, 1.0]
-        )),
-      showlegend=True
-    )
-
+    
     fig1.show()
 
-    fig2 = go.Figure()
-
-    fig2.add_trace(go.Scatterpolar(
-          r= self.avg_sev[0],
-          theta=categories,
-          fill='none',
-          name='NSGA-III'
-    ))
+    df2 = pd.DataFrame(dict(
+      color=color,
+      r= rfig2,
+      theta=theta))
     
-    fig2.add_trace(go.Scatterpolar(
-          r= self.avg_sev[1],
-          theta=categories,
-          fill='none',
-          name='U-NSGA-III'
-    ))
 
-    fig2.add_trace(go.Scatterpolar(
-          r= self.avg_sev[2],
-          theta=categories,
-          fill='none',
-          name='AGE-MOEA'
-    ))
-
-    fig2.add_trace(go.Scatterpolar(
-          r= self.avg_sev[3],
-          theta=categories,
-          fill='none',
-          name='C-TAEA'
-    ))
-
-    fig2.add_trace(go.Scatterpolar(
-          r= self.avg_sev[4],
-          theta=categories,
-          fill='none',
-          name='MOEA-D'
-    ))
-
-    fig2.add_trace(go.Scatterpolar(
-          r= self.avg_sev[5],
-          theta=categories,
-          fill='none',
-          name='RANDOM'
-    ))
-
-    fig2.update_layout(
-      polar=dict(
-        radialaxis=dict(
-          visible=True,
-          range=[0.0, 1.0]
-        )),
-      showlegend=True
-    )
-
+    fig2 = px.line_polar(df2, r='r', theta='theta', color='color', line_close=True)
+    
+    
     fig2.show()

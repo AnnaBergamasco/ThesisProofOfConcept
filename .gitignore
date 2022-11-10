@@ -12,10 +12,8 @@ RescueRobotGA/target/classes/SimulatorRunner.class
 RescueRobotPy/SmallExperiment3/__pycache__/RadarPlot.cpython-38.pyc
 RescueRobotPy/SmallExperiment3/__pycache__/RunSingleExperiment.cpython-38.pyc
 RescueRobotPy/SmallExperiment3/RunExperiment.py
-RescueRobotPy/SmallExperiment3/__pycache__/RadarPlotAlgorithms.cpython-38.pyc
- random_1.txt
-.gitignore
 RescueRobotPy/SmallExperiment3/__pycache__/RadarPlotSummary.cpython-38.pyc
 RescueRobotPy/SmallExperiment3/__pycache__/BoxPlot.cpython-38.pyc
 UAVS/__pycache__/sim_launcher_uavs.cpython-38.pyc
 UAVS/__pycache__/SimulatorRunnerUAVS.cpython-38.pyc
+RescueRobotPy/SmallExperiment3/__pycache__/RadarPlotAlgorithms.cpython-38.pyc
