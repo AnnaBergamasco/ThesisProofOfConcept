@@ -5,6 +5,7 @@ import numpy as np
 from RadarPlotAlgorithms import RadarPlotAlgorithms
 from RadarPlotSummary import RadarPlotSummary
 from BoxPlot import BoxPlotVariables
+import argparse
 
 def makeResultFile(alg_name, results) -> None:
 
@@ -66,14 +67,24 @@ def summarizeData(alg_severities) -> list:
 
 def main():
 
-    runner = RunSingleExperiment()
+    parser = argparse.ArgumentParser(description='Falsification with many-objective search.')
+    parser.add_argument("-s", "--size", type=int, help="population size", required=False, default=2)
+    parser.add_argument("-n", "--niterations", type=int, help="number of iterations", required=False, default=8)
+    parser.add_argument("-r", "--repetitions", type=int, help="number of repetitions", required=False, default=20)
+    args = parser.parse_args()
 
-    random_raw = runner.runWithAlgorithm('RANDOM')
-    nsga3_raw = runner.runWithAlgorithm('NSGA3')
-    unsga3_raw = runner.runWithAlgorithm('UNSGA3')
-    moead_raw = runner.runWithAlgorithm('MOEAD')
-    ctaea_raw = runner.runWithAlgorithm('CTAEA')
-    agemoea_raw = runner.runWithAlgorithm('AGEMOEA')
+    population_size = args.size
+    niterations = args.niterations
+    nrepetitions = args.repetitions
+
+    runner = RunSingleExperiment(nrepetitions)
+
+    random_raw = runner.runWithAlgorithm('RANDOM', population_size, niterations)
+    nsga3_raw = runner.runWithAlgorithm('NSGA3', population_size, niterations)
+    unsga3_raw = runner.runWithAlgorithm('UNSGA3', population_size, niterations)
+    moead_raw = runner.runWithAlgorithm('MOEAD', population_size, niterations)
+    ctaea_raw = runner.runWithAlgorithm('CTAEA', population_size, niterations)
+    agemoea_raw = runner.runWithAlgorithm('AGEMOEA', population_size, niterations)
 
     random_scaled = [[], []]
     nsga3_scaled = [[], []]

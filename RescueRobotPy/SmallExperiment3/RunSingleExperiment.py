@@ -7,13 +7,14 @@ class RunSingleExperiment():
 
     def __init__(
         
-        self
+        self,
+        n_repetitions
     ):
         super(RunSingleExperiment, self).__init__()
+        self.n_repetitions = n_repetitions
 
-    def runWithAlgorithm(self, alg_name) -> list:
-        pop_size = 30
-        n_generations = 30
+
+    def runWithAlgorithm(self, alg_name, pop_size, n_generations) -> list:
 
         maximum_severities = [[], [], [], [], [], []]
         average_severities = [[], [], [], [], [], []]
@@ -24,7 +25,7 @@ class RunSingleExperiment():
             alg_des = 'nsga3'
         elif alg_name == 'MOEAD':
             alg_des = 'moead'
-            n_generations = 16
+            n_generations = int((n_generations*pop_size)/21)
         elif alg_name == 'AGEMOEA':
             alg_des = 'agemoea'
         elif alg_name == 'UNSGA3':
@@ -33,11 +34,11 @@ class RunSingleExperiment():
             alg_des = 'rnsga3'
         elif alg_name == 'CTAEA':
             alg_des = 'ctaea'
-            n_generations = 43
+            n_generations = int((n_generations*pop_size)/56)
         elif alg_name == 'RANDOM':
             alg_des = 'random'
 
-        for i in range(1, 21):
+        for i in range(1, self.n_repetitions + 1):
             test_out = subprocess.run(["python3", "/home/anna/Documenti/Uni/Tesi/RescueRobotGA/RescueRobotPy/RescueRobotPymoo.py", "-a", "-f", "-s " + str(pop_size), "-n " + str(n_generations), alg_name, "-o " + alg_des + '_' + str(i) + ".txt"], stdout=subprocess.PIPE, text = True)
             logLines = (test_out.stdout).split('\n')
 
@@ -101,9 +102,9 @@ def main():
     args = parser.parse_args()
     alg_name = args.alg
 
-    runner = RunSingleExperiment()
+    runner = RunSingleExperiment(20)
 
-    results = runner.runWithAlgorithm(alg_name=alg_name)
+    results = runner.runWithAlgorithm(alg_name=alg_name, pop_size=30, n_generations=30)
 
     print(results)
     
