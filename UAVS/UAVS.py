@@ -37,13 +37,12 @@ mutation = MixedVariableMutation(mask, {
 
 class UAVSProblem(ElementwiseProblem):
 
-    def __init__(self, fast = False):
+    def __init__(self):
 
         #TODO: add verbose mode
 
         super().__init__(n_var = 7, n_obj = 14, n_constr = 0, xl = [0, 5.0, 0, 1, 0, 1.0, 1], xu = [1, 50.0, 1, 4, 24, 4.0, 10])
         self.evaluationNumber = 0
-        self.fast = 0
 
         self.disequilibrium_count = 0
 
@@ -62,8 +61,7 @@ class UAVSProblem(ElementwiseProblem):
 
         sim = SimulatorRunnerUAVS(formation=formation, speed=speed, counter=counter, weather=weather, time=time, ranget=ranget, nthreat=nthreat)
 
-        if self.fast:
-            sim.runSimulatorFast()
+        sim.runSimulatorFast()
 
         #TODO: add slow mode
         
@@ -98,23 +96,23 @@ def main():
 
     parser = argparse.ArgumentParser(description='Falsification with many-objective search.')
     parser.add_argument("alg", help="selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RNSGA3, CTAEA, RANDOM]")
-    parser.add_argument("-f", "--fast", action='store_true', help="enables fast mode", required=False)
     parser.add_argument("-s", "--size", type=int, help="population size", required=False, default=2)
     parser.add_argument("-n", "--niterations", type=int, help="number of iterations", required=False, default=8)
     parser.add_argument("-o", "--output_file", type= str, help='output file', required=False, default=None)
+    parser.add_argument("-l", "--log_random", action='store_true', help="enables storing of random results", required=False)
     args = parser.parse_args()
 
-    fast = False
+    randLog = False
     population_size = args.size
     niterations = args.niterations
     alg_name = args.alg
     partitions = 2
 
-    if args.fast:
-        fast = True
-        print("Fast simulation mode on.")
+    if args.log_random:
+        randLog = True
+        print("Random log storage mode on.")
     
-    problem = UAVSProblem(fast=fast)
+    problem = UAVSProblem()
     numb_obj = 14
 
     if alg_name == "NSGA2":
@@ -189,6 +187,9 @@ def main():
         n_tries = population_size * niterations
         n_disequilibrium = 0
 
+        if randLog:
+            log = open('random_log.txt', 'w')
+
         for i in range(1, n_tries + 1):
 
             formation = random.randint(0, 1)
@@ -201,8 +202,7 @@ def main():
 
             sim = SimulatorRunnerUAVS(formation=formation, speed=speed, counter=counter, weather=weather, time=time, ranget=ranget, nthreat=nthreat)
 
-            if args.fast:
-                sim.runSimulatorFast()
+            sim.runSimulatorFast()
         
             f1 = sim.getT1Distances()
             f2 = sim.getT2Distances()
@@ -223,12 +223,18 @@ def main():
                 f4[0],
                 f4[1],
                 f4[2]]
+            
+            if randLog:
+                log.write(str(sim.t1Probabilities) + ' ' + str(sim.t2Probabilities) + ' ' + str(sim.t3Probabilities) + ' ' + str(sim.t4Probabilities) + '\n')
         
             for o in results:
                     if o < 0.0:
                         n_disequilibrium += 1
                         break
-    
+
+        if randLog:
+            log.close()
+
         print("Disequilibrium count: {}".format(n_disequilibrium))
     
     else:
