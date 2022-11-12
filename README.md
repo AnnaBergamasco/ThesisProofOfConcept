@@ -1,6 +1,6 @@
-# RescueRobotGA
+# Thesis Proof of Concept
 
-Study of the problem of searching for the disequilibrium situations in the example case of RescueRobot, using two different critera (fitness functions). 
+Study of the problem of searching for the disequilibrium situations for cyber-physical systems, applied to two examples: RescueRobot and UAVS.
 
 All implementations use `MBT-module` and `mdp_simulator_launcher` by Matteo Camilli to compute the fitness functions of the genetic algorithms.
 

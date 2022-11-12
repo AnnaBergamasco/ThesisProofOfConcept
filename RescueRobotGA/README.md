@@ -1,6 +1,6 @@
 # RescueRobotGA
 
-This is the Java implementation using `JMetal`, the algorithm used is NSGA-II.
+This is the Java implementation of the RescueRobot example using `JMetal`, the algorithm used is NSGA-II.
 Here follow the explaination of the used classes.
 
 ## AlgorithmRunner

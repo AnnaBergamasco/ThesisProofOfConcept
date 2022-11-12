@@ -67,7 +67,7 @@ def summarizeData(alg_severities) -> list:
 
 def main():
 
-    parser = argparse.ArgumentParser(description='Falsification with many-objective search.')
+    parser = argparse.ArgumentParser(description='Experiment on falsification with many-objective search using different algorithms, with computation of minimun and average distances.')
     parser.add_argument("-s", "--size", type=int, help="population size", required=False, default=2)
     parser.add_argument("-n", "--niterations", type=int, help="number of iterations", required=False, default=8)
     parser.add_argument("-r", "--repetitions", type=int, help="number of repetitions", required=False, default=20)

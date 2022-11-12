@@ -1,6 +1,6 @@
 # SmallExperiment1
 
-This is the first experiment of the SmallExperiment serie on the `Pymoo` implementation of the search program. Its goal is to measure the goodness of the results provided by different fitness functions: all-var mode and min-var mode. 
+This is the first experiment of the SmallExperiment series on the `Pymoo` implementation of the search program. Its goal is to measure the goodness of the results provided by different fitness functions: all-var mode and min-var mode. 
 Each execution is of the search is run using the fast mode and the NSGA3 algorithm; the experiment is repeated 20 times for fitness mode, using a population size of 30 and a number of generations of 30. The metric used is the number of elements considered by the algorithm that break the equilibrium constraint, meaninig that one of the variables of its fitness is negative.
 The metrics of each fitness mode are compared using box plots.
 
