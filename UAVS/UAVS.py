@@ -41,7 +41,7 @@ class UAVSProblem(ElementwiseProblem):
 
         #TODO: add verbose mode
 
-        super().__init__(n_var = 7, n_obj = 14, n_constr = 0, xl = [0, 5.0, 0, 1, 0, 1.0, 1], xu = [1, 50.0, 1, 4, 24, 4.0, 10])
+        super().__init__(n_var = 7, n_obj = 14, n_constr = 0, xl = [0, 5.0, 0, 1, 0, 1000.0, 1], xu = [1, 50.0, 1, 4, 24, 4000.0, 100])
         self.evaluationNumber = 0
 
         self.disequilibrium_count = 0
@@ -197,8 +197,8 @@ def main():
             counter = random.randint(0, 1)
             weather = random.randint(1, 4)
             time = random.randint(0, 24)
-            ranget = random.uniform(1.0, 4.0)
-            nthreat = random.randint(1, 10)
+            ranget = random.uniform(1000.0, 4000.0)
+            nthreat = random.randint(1, 100)
 
             sim = SimulatorRunnerUAVS(formation=formation, speed=speed, counter=counter, weather=weather, time=time, ranget=ranget, nthreat=nthreat)
 

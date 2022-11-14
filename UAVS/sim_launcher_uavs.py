@@ -8,8 +8,8 @@ from math import sin, factorial, pow, exp
 
 ### Settings ###
 # modify
-mbt_module_dir = '/home/anna/Documenti/Uni/Tesi/mbt-module'
-#mbt_module_dir = '/Users/matteocamilli/tools/mbt-module'
+#mbt_module_dir = '/home/anna/Documenti/Uni/Tesi/mbt-module'
+mbt_module_dir = '/Users/matteocamilli/tools/mbt-module'
 # do not modify
 model = 'src/main/resources/uavs.jmdp'
 model_back = 'src/main/resources/uavs.jmdp.back'
@@ -31,8 +31,8 @@ Semantic space
 - countermeasure: int in [0, 1] No/Yes
 - weather: int in [1, 2, 3, 4] (sun, clouds, rain, fog)
 - day time: int in [0, 24]
-- threat range: float in [1.0, 4.0] km
-- #threats: int in [1, 10]
+- threat range: float in [1000.0, 40000.0] m
+- #threats: int in [1, 100]
     
 
 Definition of the rules (dictionary structure).
@@ -56,7 +56,7 @@ f_form_r1_2 = "(" + f_form_r1_1 + ") / 2"
 f_form_r2_1 = "0.0015 * x"
 f_form_r2_2 = "(" + f_form_r2_1 + ") / 2"
 # flying speed (decreases prob detection)
-f_speed_1 = "((x-5) / ((x-5) + 100)) * 0.005"
+f_speed_1 = "((x-5) / ((x-5) + 1.0)) * 0.01"
 f_speed_2 = "(" + f_speed_1 + ") / 2"
 f_speed_3 = "(" + f_speed_1 + ") / 3"
 # countermeasure (decreases prob detection)
@@ -67,12 +67,12 @@ f_weather_1 = "0.0005 * x"
 f_weather_2 = "(" + f_weather_1 + ") / 2"
 # day time (no effect)
 # -
-# threat range (decreases prob detection)
-f_threat_1 = "((x-1.0) / ((x-1.0) + 0.1)) * 0.002"
+# threat range (increases prob detection)
+f_threat_1 = "0.025 - (((4000-x) / ((4000-x) + 25)) * 0.025)"
 f_threat_2 = "(" + f_threat_1 + ") / 2"
 f_threat_3 = "(" + f_threat_1 + ") / 3"
 # threats (increases prob detection)
-f_nthreats_1 = "0.0045 - (((10-x) / ((10-x) + 1)) * 0.005)"
+f_nthreats_1 = "0.02 - (((100-x) / ((100-x) + 1.0)) * 0.02)"
 f_nthreats_2 = "(" + f_nthreats_1 + ") / 2"
 f_nthreats_3 = "(" + f_nthreats_1 + ") / 3"
 
@@ -85,24 +85,20 @@ rules = {
         ['S7 sTrt S8', f_form_r2_2, Action.DECREASE, 0.0, 0.00075]
     ],
     'flying_speed' : [
-        ['S0 sTrt S21', f_speed_1, Action.DECREASE, 0.0, 0.0016],
-        ['S0 sTrt S1', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S0 sTrt S22', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S7 sTrt S21', f_speed_1, Action.DECREASE, 0.0, 0.0016],
-        ['S7 sTrt S6', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S7 sTrt S8', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S7 sTrt S22', f_speed_1, Action.DECREASE, 0.0, 0.0016],
-        ['S7 sTrt S6', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S7 sTrt S8', f_speed_2, Action.INCREASE, 0.0, 0.0008],    
-        ['S14 sTrt S21', f_speed_1, Action.DECREASE, 0.0, 0.0016],
-        ['S14 sTrt S13', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S14 sTrt S15', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S14 sTrt S22', f_speed_1, Action.DECREASE, 0.0, 0.0016],
-        ['S14 sTrt S13', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S14 sTrt S15', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S20 sTrt S21', f_speed_1, Action.DECREASE, 0.0, 0.0016],
-        ['S20 sTrt S19', f_speed_2, Action.INCREASE, 0.0, 0.0008],
-        ['S20 sTrt S22', f_speed_2, Action.INCREASE, 0.0, 0.0008]
+        ['S0 sTrt S21', f_speed_1, Action.DECREASE, 0.0, 0.01],
+        ['S0 sTrt S1', f_speed_2, Action.INCREASE, 0.0, 0.005],
+        ['S0 sTrt S22', f_speed_2, Action.INCREASE, 0.0, 0.005],
+        ['S7 sTrt S21', f_speed_1, Action.DECREASE, 0.0, 0.01],
+        ['S7 sTrt S6', f_speed_2, Action.DECREASE, 0.0, 0.005],
+        ['S7 sTrt S8', f_speed_2, Action.INCREASE, 0.0, 0.005],
+        ['S7 sTrt S22', f_speed_1, Action.INCREASE, 0.0, 0.01],  
+        ['S14 sTrt S21', f_speed_1, Action.DECREASE, 0.0, 0.01],
+        ['S14 sTrt S13', f_speed_2, Action.DECREASE, 0.0, 0.005],
+        ['S14 sTrt S15', f_speed_2, Action.INCREASE, 0.0, 0.005],
+        ['S14 sTrt S22', f_speed_1, Action.INCREASE, 0.0, 0.01],
+        ['S20 sTrt S21', f_speed_1, Action.DECREASE, 0.0, 0.01],
+        ['S20 sTrt S19', f_speed_2, Action.INCREASE, 0.0, 0.005],
+        ['S20 sTrt S22', f_speed_2, Action.INCREASE, 0.0, 0.005]
     ],
     'countermeasure' : [
         ['S0 sTrt S21', f_counter_1, Action.DECREASE, 0.0, 0.005],
@@ -127,28 +123,28 @@ rules = {
         
     ],
     'threat_range' : [
-        ['S0 sTrt S21', f_threat_1, Action.INCREASE, 0.0, 0.002],
-        ['S0 sTrt S1', f_threat_1, Action.DECREASE, 0.0, 0.002],
-        ['S7 sTrt S21', f_threat_1, Action.INCREASE, 0.0, 0.002],
-        ['S7 sTrt S6', f_threat_2, Action.DECREASE, 0.0, 0.001],
-        ['S7 sTrt S8', f_threat_2, Action.DECREASE, 0.0, 0.001], 
-        ['S14 sTrt S21', f_threat_1, Action.INCREASE, 0.0, 0.002],
-        ['S14 sTrt S6', f_threat_2, Action.DECREASE, 0.0, 0.001],
-        ['S14 sTrt S8', f_threat_2, Action.DECREASE, 0.0, 0.001],       
-        ['S20 sTrt S21', f_threat_1, Action.INCREASE, 0.0, 0.002],
-        ['S20 sTrt S19', f_threat_1, Action.DECREASE, 0.0, 0.002]
+        ['S0 sTrt S21', f_threat_1, Action.INCREASE, 0.0, 0.025],
+        ['S0 sTrt S1', f_threat_1, Action.DECREASE, 0.0, 0.025],
+        ['S7 sTrt S21', f_threat_1, Action.INCREASE, 0.0, 0.025],
+        ['S7 sTrt S6', f_threat_2, Action.DECREASE, 0.0, 0.0125],
+        ['S7 sTrt S8', f_threat_2, Action.DECREASE, 0.0, 0.0125], 
+        ['S14 sTrt S21', f_threat_1, Action.INCREASE, 0.0, 0.025],
+        ['S14 sTrt S6', f_threat_2, Action.DECREASE, 0.0, 0.0125],
+        ['S14 sTrt S8', f_threat_2, Action.DECREASE, 0.0, 0.0125],       
+        ['S20 sTrt S21', f_threat_1, Action.INCREASE, 0.0, 0.025],
+        ['S20 sTrt S19', f_threat_1, Action.DECREASE, 0.0, 0.025]
     ],
     'threats' : [
-        ['S0 sTrt S21', f_nthreats_1, Action.INCREASE, 0.0, 0.0025],
-        ['S0 sTrt S1', f_nthreats_1, Action.DECREASE, 0.0, 0.0025],
-        ['S7 sTrt S21', f_nthreats_1, Action.INCREASE, 0.0, 0.0025],
-        ['S7 sTrt S6', f_nthreats_2, Action.DECREASE, 0.0, 0.00125],
-        ['S7 sTrt S8', f_nthreats_2, Action.DECREASE, 0.0, 0.00125], 
-        ['S14 sTrt S21', f_nthreats_1, Action.INCREASE, 0.0, 0.0025],
-        ['S14 sTrt S6', f_nthreats_2, Action.DECREASE, 0.0, 0.00125],
-        ['S14 sTrt S8', f_nthreats_2, Action.DECREASE, 0.0, 0.00125],       
-        ['S20 sTrt S21', f_nthreats_1, Action.INCREASE, 0.0, 0.0025],
-        ['S20 sTrt S19', f_nthreats_1, Action.DECREASE, 0.0, 0.0025]
+        ['S0 sTrt S21', f_nthreats_1, Action.INCREASE, 0.0, 0.02],
+        ['S0 sTrt S1', f_nthreats_1, Action.DECREASE, 0.0, 0.02],
+        ['S7 sTrt S21', f_nthreats_1, Action.INCREASE, 0.0, 0.02],
+        ['S7 sTrt S6', f_nthreats_2, Action.DECREASE, 0.0, 0.01],
+        ['S7 sTrt S8', f_nthreats_2, Action.DECREASE, 0.0, 0.01], 
+        ['S14 sTrt S21', f_nthreats_1, Action.INCREASE, 0.0, 0.02],
+        ['S14 sTrt S6', f_nthreats_2, Action.DECREASE, 0.0, 0.01],
+        ['S14 sTrt S8', f_nthreats_2, Action.DECREASE, 0.0, 0.01],       
+        ['S20 sTrt S21', f_nthreats_1, Action.INCREASE, 0.0, 0.02],
+        ['S20 sTrt S19', f_nthreats_1, Action.DECREASE, 0.0, 0.02]
     ]
 }
 
