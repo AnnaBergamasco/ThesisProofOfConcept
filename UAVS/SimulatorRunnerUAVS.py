@@ -30,9 +30,9 @@ class SimulatorRunnerUAVS():
         self.t4Probabilities = [0,0,0]
 
         self.t1Bounds = [0.78, 0.82, 0.03, 0.07, 0.13, 0.17]
-        self.t2Bounds = [0.42, 0.46, 0.42, 0.46, 0.0, 0.4, 0.0, 0.3]
-        self.t3Bounds = [0.45, 0.49, 0.45, 0.49, 0.0, 0.3, 0.3, 0.7]
-        self.t4Bounds = [0.93, 0.97, 0.0, 0.025, 0.025, 0.065]
+        self.t2Bounds = [0.42, 0.46, 0.42, 0.46, 0.0, 0.1, 0.0, 0.03]
+        self.t3Bounds = [0.45, 0.49, 0.45, 0.49, 0.0, 0.05, 0.0, 0.05]
+        self.t4Bounds = [0.93, 0.97, 0.0, 0.01, 0.0, 0.04578]
     
     #TODO: add normal mode
 
