@@ -34,9 +34,6 @@ usage: RunExperiment.py [-h] [-s] [-n] [-r]
 
 Experiment on falsification with many-objective search using different algorithms, with computation of minimun and average distances.
 
-positional arguments:
-  alg         selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA, UNSGA3, RNSGA3, TAEA, RANDOM]
-
 optional arguments:
   -h, --help            show this help message and exit
   -s SIZE, --size SIZE  population size
@@ -60,7 +57,7 @@ distances.
 
 positional arguments:
   alg         selected many-objective search algorithm in [NSGA2, NSGA3, MOEAD, AGEMOEA,
-              UNSGA3, RNSGA3, CTAEA, RANDOM]
+              UNSGA3, CTAEA, RANDOM]
 
 optional arguments:
   -h, --help  show this help message and exit
