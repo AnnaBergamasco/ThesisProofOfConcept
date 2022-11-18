@@ -46,6 +46,36 @@ class UAVSProblem(ElementwiseProblem):
 
         self.disequilibrium_count = 0
 
+        self.minimum_distance_0_1 = 10000
+        self.minimum_distance_0_21 = 10000
+        self.minimum_distance_0_22 = 10000
+        self.minimum_distance_7_6 = 10000
+        self.minimum_distance_7_8 = 10000
+        self.minimum_distance_7_21 = 10000
+        self.minimum_distance_7_22 = 10000
+        self.minimum_distance_14_13 = 10000
+        self.minimum_distance_14_15 = 10000
+        self.minimum_distance_14_21 = 10000
+        self.minimum_distance_14_22 = 10000
+        self.minimum_distance_20_19 = 10000
+        self.minimum_distance_20_21 = 10000
+        self.minimum_distance_20_22 = 10000
+
+        self.average_distance_0_1 = 0
+        self.average_distance_0_21 = 0
+        self.average_distance_0_22 = 0
+        self.average_distance_7_6 = 0
+        self.average_distance_7_8 = 0
+        self.average_distance_7_21 = 0
+        self.average_distance_7_22 = 0
+        self.average_distance_14_13 = 0
+        self.average_distance_14_15 = 0
+        self.average_distance_14_21 = 0
+        self.average_distance_14_22 = 0
+        self.average_distance_20_19 = 0
+        self.average_distance_20_21 = 0
+        self.average_distance_20_22 = 0
+
         #TODO: add metrics
     
     def _evaluate(self, x, out, *args, **kwargs):
@@ -90,6 +120,36 @@ class UAVSProblem(ElementwiseProblem):
             if o < 0.0:
                 self.disequilibrium_count += 1
                 break
+        
+        self.minimum_distance_0_1 = min(self.minimum_distance_0_1, f1[0])
+        self.minimum_distance_0_21 = min(self.minimum_distance_0_21, f1[1])
+        self.minimum_distance_0_22 = min(self.minimum_distance_0_22, f1[2])
+        self.minimum_distance_7_6 = min(self.minimum_distance_7_6, f2[0])
+        self.minimum_distance_7_8 = min(self.minimum_distance_7_8, f2[1])
+        self.minimum_distance_7_21 = min(self.minimum_distance_7_21, f2[2])
+        self.minimum_distance_7_22 = min(self.minimum_distance_7_22, f2[3])
+        self.minimum_distance_14_13 = min(self.minimum_distance_14_13, f3[0])
+        self.minimum_distance_14_15 = min(self.minimum_distance_14_15, f3[1])
+        self.minimum_distance_14_21 = min(self.minimum_distance_14_21, f3[2])
+        self.minimum_distance_14_22 = min(self.minimum_distance_14_22, f3[3])
+        self.minimum_distance_20_19 = min(self.minimum_distance_20_19, f4[0])
+        self.minimum_distance_20_21 = min(self.minimum_distance_20_21, f4[1])
+        self.minimum_distance_20_22 = min(self.minimum_distance_20_22, f4[2])
+
+        self.average_distance_0_1 = self.average_distance_0_1 + (f1[0] - self.average_distance_0_1)/self.evaluationNumber
+        self.average_distance_0_21 = self.average_distance_0_21 + (f1[1] - self.average_distance_0_21)/self.evaluationNumber
+        self.average_distance_0_22 = self.average_distance_0_22 + (f1[2] - self.average_distance_0_22)/self.evaluationNumber
+        self.average_distance_7_6 = self.average_distance_7_6 + (f2[0] - self.average_distance_7_6)/self.evaluationNumber
+        self.average_distance_7_8 = self.average_distance_7_8 + (f2[1] - self.average_distance_7_8)/self.evaluationNumber
+        self.average_distance_7_21 = self.average_distance_7_21 + (f2[2] - self.average_distance_7_21)/self.evaluationNumber
+        self.average_distance_7_22 = self.average_distance_7_22 + (f2[3] - self.average_distance_7_22)/self.evaluationNumber
+        self.average_distance_14_13 = self.average_distance_14_13 + (f3[0] - self.average_distance_14_13)/self.evaluationNumber
+        self.average_distance_14_15 = self.average_distance_14_15 + (f3[1] - self.average_distance_14_15)/self.evaluationNumber
+        self.average_distance_14_21 = self.average_distance_14_21 + (f3[2] - self.average_distance_14_21)/self.evaluationNumber
+        self.average_distance_14_22 = self.average_distance_14_22 + (f3[3] - self.average_distance_14_22)/self.evaluationNumber
+        self.average_distance_20_19 = self.average_distance_20_19 + (f4[0] - self.average_distance_20_19)/self.evaluationNumber
+        self.average_distance_20_21 = self.average_distance_20_21 + (f4[1] - self.average_distance_20_21)/self.evaluationNumber
+        self.average_distance_20_22 = self.average_distance_20_22 + (f4[2] - self.average_distance_20_22)/self.evaluationNumber
 
 
 def main():
@@ -186,6 +246,36 @@ def main():
         n_tries = population_size * niterations
         n_disequilibrium = 0
 
+        minimum_distance_0_1 = 10000
+        minimum_distance_0_21 = 10000
+        minimum_distance_0_22 = 10000
+        minimum_distance_7_6 = 10000
+        minimum_distance_7_8 = 10000
+        minimum_distance_7_21 = 10000
+        minimum_distance_7_22 = 10000
+        minimum_distance_14_13 = 10000
+        minimum_distance_14_15 = 10000
+        minimum_distance_14_21 = 10000
+        minimum_distance_14_22 = 10000
+        minimum_distance_20_19 = 10000
+        minimum_distance_20_21 = 10000
+        minimum_distance_20_22 = 10000
+
+        average_distance_0_1 = 0
+        average_distance_0_21 = 0
+        average_distance_0_22 = 0
+        average_distance_7_6 = 0
+        average_distance_7_8 = 0
+        average_distance_7_21 = 0
+        average_distance_7_22 = 0
+        average_distance_14_13 = 0
+        average_distance_14_15 = 0
+        average_distance_14_21 = 0
+        average_distance_14_22 = 0
+        average_distance_20_19 = 0
+        average_distance_20_21 = 0
+        average_distance_20_22 = 0
+
         if randLog:
             log = open('random_log.txt', 'w')
 
@@ -230,12 +320,76 @@ def main():
                     if o < 0.0:
                         n_disequilibrium += 1
                         break
+            
+            minimum_distance_0_1 = min(minimum_distance_0_1, f1[0])
+            minimum_distance_0_21 = min(minimum_distance_0_21, f1[1])
+            minimum_distance_0_22 = min(minimum_distance_0_22, f1[2])
+            minimum_distance_7_6 = min(minimum_distance_7_6, f2[0])
+            minimum_distance_7_8 = min(minimum_distance_7_8, f2[1])
+            minimum_distance_7_21 = min(minimum_distance_7_21, f2[2])
+            minimum_distance_7_22 = min(minimum_distance_7_22, f2[3])
+            minimum_distance_14_13 = min(minimum_distance_14_13, f3[0])
+            minimum_distance_14_15 = min(minimum_distance_14_15, f3[1])
+            minimum_distance_14_21 = min(minimum_distance_14_21, f3[2])
+            minimum_distance_14_22 = min(minimum_distance_14_22, f3[3])
+            minimum_distance_20_19 = min(minimum_distance_20_19, f4[0])
+            minimum_distance_20_21 = min(minimum_distance_20_21, f4[1])
+            minimum_distance_20_22 = min(minimum_distance_20_22, f4[2])
+
+            average_distance_0_1 = average_distance_0_1 + (f1[0] - average_distance_0_1)/i
+            average_distance_0_21 = average_distance_0_21 + (f1[1] - average_distance_0_21)/i
+            average_distance_0_22 = average_distance_0_22 + (f1[2] - average_distance_0_22)/i
+            average_distance_7_6 = average_distance_7_6 + (f2[0] - average_distance_7_6)/i
+            average_distance_7_8 = average_distance_7_8 + (f2[1] - average_distance_7_8)/i
+            average_distance_7_21 = average_distance_7_21 + (f2[2] - average_distance_7_21)/i
+            average_distance_7_22 = average_distance_7_22 + (f2[3] - average_distance_7_22)/i
+            average_distance_14_13 = average_distance_14_13 + (f3[0] - average_distance_14_13)/i
+            average_distance_14_15 = average_distance_14_15 + (f3[1] - average_distance_14_15)/i
+            average_distance_14_21 = average_distance_14_21 + (f3[2] - average_distance_14_21)/i
+            average_distance_14_22 = average_distance_14_22 + (f3[3] - average_distance_14_22)/i
+            average_distance_20_19 = average_distance_20_19 + (f4[0] - average_distance_20_19)/i
+            average_distance_20_21 = average_distance_20_21 + (f4[1] - average_distance_20_21)/i
+            average_distance_20_22 = average_distance_20_22 + (f4[2] - average_distance_20_22)/i
+
+
 
         if randLog:
             log.close()
 
+        
+        print("Minimum S0 e1 S1 distance: {}".format(minimum_distance_0_1))
+        print("Minimum S0 e1 S21 distance: {}".format(minimum_distance_0_21))
+        print("Minimum S0 e1 S11 distance: {}".format(minimum_distance_0_22))
+        print("Minimum S7 e1 S6 distance: {}".format(minimum_distance_7_6))
+        print("Minimum S7 e1 S6 distance: {}".format(minimum_distance_7_8))
+        print("Minimum S7 e1 S21 distance: {}".format(minimum_distance_7_21))
+        print("Minimum S7 e1 S22 distance: {}".format(minimum_distance_7_22))
+        print("Minimum S14 e1 S13 distance: {}".format(minimum_distance_14_13))
+        print("Minimum S14 e1 S15 distance: {}".format(minimum_distance_14_15))
+        print("Minimum S14 e1 S21 distance: {}".format(minimum_distance_14_21))
+        print("Minimum S14 e1 S22 distance: {}".format(minimum_distance_14_22))
+        print("Minimum S20 e1 S19 distance: {}".format(minimum_distance_20_19))
+        print("Minimum S20 e1 S21 distance: {}".format(minimum_distance_20_21))
+        print("Minimum S20 e1 S22 distance: {}".format(minimum_distance_20_22))
+        
+
+        print("Average S0 e1 S1 distance: {}".format(average_distance_0_1))
+        print("Average S0 e1 S21 distance: {}".format(average_distance_0_21))
+        print("Average S0 e1 S22 distance: {}".format(average_distance_0_22))
+        print("Average S7 e1 S6 distance: {}".format(average_distance_7_6))
+        print("Average S7 e1 S8 distance: {}".format(average_distance_7_8))
+        print("Average S7 e1 S21 distance: {}".format(average_distance_7_21))
+        print("Average S7 e1 S22 distance: {}".format(average_distance_7_22))
+        print("Average S14 e1 S13 distance: {}".format(average_distance_14_13))
+        print("Average S14 e1 S15 distance: {}".format(average_distance_14_15))
+        print("Average S14 e1 S21 distance: {}".format(average_distance_14_21))
+        print("Average S14 e1 S22 distance: {}".format(average_distance_14_22))
+        print("Average S20 e1 S19 distance: {}".format(average_distance_20_19))
+        print("Average S20 e1 S21 distance: {}".format(average_distance_20_21))
+        print("Average S20 e1 S22 distance: {}".format(average_distance_20_22))
+
         print("Disequilibrium count: {}".format(n_disequilibrium))
-    
+
     else:
         raise ValueError("Invalid algorithm (use -h to see the valid options).")
 
@@ -255,7 +409,41 @@ def main():
         X = res.X
         F = res.F
 
+        
+
+        
+        print("Minimum S0 e1 S21 distance: {}".format(problem.minimum_distance_0_21))
+        print("Minimum S0 e1 S11 distance: {}".format(problem.minimum_distance_0_22))
+        print("Minimum S7 e1 S6 distance: {}".format(problem.minimum_distance_7_6))
+        print("Minimum S7 e1 S6 distance: {}".format(problem.minimum_distance_7_8))
+        print("Minimum S7 e1 S21 distance: {}".format(problem.minimum_distance_7_21))
+        print("Minimum S7 e1 S22 distance: {}".format(problem.minimum_distance_7_22))
+        print("Minimum S14 e1 S13 distance: {}".format(problem.minimum_distance_14_13))
+        print("Minimum S14 e1 S15 distance: {}".format(problem.minimum_distance_14_15))
+        print("Minimum S14 e1 S21 distance: {}".format(problem.minimum_distance_14_21))
+        print("Minimum S14 e1 S22 distance: {}".format(problem.minimum_distance_14_22))
+        print("Minimum S20 e1 S19 distance: {}".format(problem.minimum_distance_20_19))
+        print("Minimum S20 e1 S21 distance: {}".format(problem.minimum_distance_20_21))
+        print("Minimum S20 e1 S22 distance: {}".format(problem.minimum_distance_20_22))
+        
+
+        print("Average S0 e1 S1 distance: {}".format(problem.average_distance_0_1))
+        print("Average S0 e1 S21 distance: {}".format(problem.average_distance_0_21))
+        print("Average S0 e1 S22 distance: {}".format(problem.average_distance_0_22))
+        print("Average S7 e1 S6 distance: {}".format(problem.average_distance_7_6))
+        print("Average S7 e1 S8 distance: {}".format(problem.average_distance_7_8))
+        print("Average S7 e1 S21 distance: {}".format(problem.average_distance_7_21))
+        print("Average S7 e1 S22 distance: {}".format(problem.average_distance_7_22))
+        print("Average S14 e1 S13 distance: {}".format(problem.average_distance_14_13))
+        print("Average S14 e1 S15 distance: {}".format(problem.average_distance_14_15))
+        print("Average S14 e1 S21 distance: {}".format(problem.average_distance_14_21))
+        print("Average S14 e1 S22 distance: {}".format(problem.average_distance_14_22))
+        print("Average S20 e1 S19 distance: {}".format(problem.average_distance_20_19))
+        print("Average S20 e1 S21 distance: {}".format(problem.average_distance_20_21))
+        print("Average S20 e1 S22 distance: {}".format(problem.average_distance_20_22))
+
         print("Disequilibrium count: {}".format(problem.disequilibrium_count))
+        
 
     if args.output_file:
 
@@ -265,8 +453,70 @@ def main():
         if alg_name == 'RANDOM':
             file.write("\t[DISEQUILIBRIUM COUNT] " + str(n_disequilibrium) + "\n")
             
+            file.write("\t[MINIMUM S0 e1 S1 DISTANCE]" + str(minimum_distance_0_1) + "\n")
+            file.write("\t[MINIMUM S0 e1 S21 DISTANCE]" + str(minimum_distance_0_21) + "\n")
+            file.write("\t[MINIMUM S0 e1 S22 DISTANCE]" + str(minimum_distance_0_22) + "\n")
+            file.write("\t[MINIMUM S7 e1 S6 DISTANCE]" + str(minimum_distance_7_6) + "\n")
+            file.write("\t[MINIMUM S7 e1 S8 DISTANCE]" + str(minimum_distance_7_8) + "\n")
+            file.write("\t[MINIMUM S7 e1 S21 DISTANCE]" + str(minimum_distance_7_21) + "\n")
+            file.write("\t[MINIMUM S7 e1 S22 DISTANCE]" + str(minimum_distance_7_22) + "\n")
+            file.write("\t[MINIMUM S14 e1 S13 DISTANCE]" + str(minimum_distance_14_13) + "\n")
+            file.write("\t[MINIMUM S14 e1 S15 DISTANCE]" + str(minimum_distance_14_15) + "\n")
+            file.write("\t[MINIMUM S14 e1 S21 DISTANCE]" + str(minimum_distance_14_21) + "\n")
+            file.write("\t[MINIMUM S14 e1 S22 DISTANCE]" + str(minimum_distance_14_22) + "\n")
+            file.write("\t[MINIMUM S20 e1 S19 DISTANCE]" + str(minimum_distance_20_19) + "\n")
+            file.write("\t[MINIMUM S20 e1 S21 DISTANCE]" + str(minimum_distance_20_21) + "\n")
+            file.write("\t[MINIMUM S20 e1 S22 DISTANCE]" + str(minimum_distance_20_22) + "\n")
+
+            file.write("\t[AVERAGE S0 e1 S1 DISTANCE]" + str(average_distance_0_1) + "\n")
+            file.write("\t[AVERAGE S0 e1 S21 DISTANCE]" + str(average_distance_0_21) + "\n")
+            file.write("\t[AVERAGE S0 e1 S22 DISTANCE]" + str(average_distance_0_22) + "\n")
+            file.write("\t[AVERAGE S7 e1 S6 DISTANCE]" + str(average_distance_7_6) + "\n")
+            file.write("\t[AVERAGE S7 e1 S8 DISTANCE]" + str(average_distance_7_8) + "\n")
+            file.write("\t[AVERAGE S7 e1 S21 DISTANCE]" + str(average_distance_7_21) + "\n")
+            file.write("\t[AVERAGE S7 e1 S22 DISTANCE]" + str(average_distance_7_22) + "\n")
+            file.write("\t[AVERAGE S14 e1 S13 DISTANCE]" + str(average_distance_14_13) + "\n")
+            file.write("\t[AVERAGE S14 e1 S15 DISTANCE]" + str(average_distance_14_15) + "\n")
+            file.write("\t[AVERAGE S14 e1 S21 DISTANCE]" + str(average_distance_14_21) + "\n")
+            file.write("\t[AVERAGE S14 e1 S22 DISTANCE]" + str(average_distance_14_22) + "\n")
+            file.write("\t[AVERAGE S20 e1 S19 DISTANCE]" + str(average_distance_20_19) + "\n")
+            file.write("\t[AVERAGE S20 e1 S21 DISTANCE]" + str(average_distance_20_21) + "\n")
+            file.write("\t[AVERAGE S20 e1 S22 DISTANCE]" + str(average_distance_20_22) + "\n")
+
         else: 
             file.write("\t[DISEQUILIBRIUM COUNT] " + str(problem.disequilibrium_count) + "\n")
+            
+            file.write("\t[MINIMUM S0 e1 S1 DISTANCE]" + str(problem.minimum_distance_0_1) + "\n")
+            file.write("\t[MINIMUM S0 e1 S21 DISTANCE]" + str(problem.minimum_distance_0_21) + "\n")
+            file.write("\t[MINIMUM S0 e1 S22 DISTANCE]" + str(problem.minimum_distance_0_22) + "\n")
+            file.write("\t[MINIMUM S7 e1 S6 DISTANCE]" + str(problem.minimum_distance_7_6) + "\n")
+            file.write("\t[MINIMUM S7 e1 S8 DISTANCE]" + str(problem.minimum_distance_7_8) + "\n")
+            file.write("\t[MINIMUM S7 e1 S21 DISTANCE]" + str(problem.minimum_distance_7_21) + "\n")
+            file.write("\t[MINIMUM S7 e1 S22 DISTANCE]" + str(problem.minimum_distance_7_22) + "\n")
+            file.write("\t[MINIMUM S14 e1 S13 DISTANCE]" + str(problem.minimum_distance_14_13) + "\n")
+            file.write("\t[MINIMUM S14 e1 S15 DISTANCE]" + str(problem.minimum_distance_14_15) + "\n")
+            file.write("\t[MINIMUM S14 e1 S21 DISTANCE]" + str(problem.minimum_distance_14_21) + "\n")
+            file.write("\t[MINIMUM S14 e1 S22 DISTANCE]" + str(problem.minimum_distance_14_22) + "\n")
+            file.write("\t[MINIMUM S20 e1 S19 DISTANCE]" + str(problem.minimum_distance_20_19) + "\n")
+            file.write("\t[MINIMUM S20 e1 S21 DISTANCE]" + str(problem.minimum_distance_20_21) + "\n")
+            file.write("\t[MINIMUM S20 e1 S22 DISTANCE]" + str(problem.minimum_distance_20_22) + "\n")
+
+            file.write("\t[AVERAGE S0 e1 S1 DISTANCE]" + str(problem.average_distance_0_1) + "\n")
+            file.write("\t[AVERAGE S0 e1 S21 DISTANCE]" + str(problem.average_distance_0_21) + "\n")
+            file.write("\t[AVERAGE S0 e1 S22 DISTANCE]" + str(problem.average_distance_0_22) + "\n")
+            file.write("\t[AVERAGE S7 e1 S6 DISTANCE]" + str(problem.average_distance_7_6) + "\n")
+            file.write("\t[AVERAGE S7 e1 S8 DISTANCE]" + str(problem.average_distance_7_8) + "\n")
+            file.write("\t[AVERAGE S7 e1 S21 DISTANCE]" + str(problem.average_distance_7_21) + "\n")
+            file.write("\t[AVERAGE S7 e1 S22 DISTANCE]" + str(problem.average_distance_7_22) + "\n")
+            file.write("\t[AVERAGE S14 e1 S13 DISTANCE]" + str(problem.average_distance_14_13) + "\n")
+            file.write("\t[AVERAGE S14 e1 S15 DISTANCE]" + str(problem.average_distance_14_15) + "\n")
+            file.write("\t[AVERAGE S14 e1 S21 DISTANCE]" + str(problem.average_distance_14_21) + "\n")
+            file.write("\t[AVERAGE S14 e1 S22 DISTANCE]" + str(problem.average_distance_14_22) + "\n")
+            file.write("\t[AVERAGE S20 e1 S19 DISTANCE]" + str(problem.average_distance_20_19) + "\n")
+            file.write("\t[AVERAGE S20 e1 S21 DISTANCE]" + str(problem.average_distance_20_21) + "\n")
+            file.write("\t[AVERAGE S20 e1 S22 DISTANCE]" + str(problem.average_distance_20_22) + "\n")
+
+
             file.write("[VARIABLES]\n")
             ind = 0
             for x in X:
