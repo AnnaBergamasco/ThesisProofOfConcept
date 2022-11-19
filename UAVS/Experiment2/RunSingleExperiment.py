@@ -22,14 +22,14 @@ class RunSingleExperiment():
             alg_des = 'nsga3'
         elif alg_name == 'MOEAD':
             alg_des = 'moead'
-            n_generations = int((n_generations*pop_size)/21)
+            n_generations = int((n_generations*pop_size)/105)
         elif alg_name == 'AGEMOEA':
             alg_des = 'agemoea'
         elif alg_name == 'UNSGA3':
             alg_des = 'unsga3'
         elif alg_name == 'CTAEA':
             alg_des = 'ctaea'
-            n_generations = int((n_generations*pop_size)/56)
+            n_generations = int((n_generations*pop_size)/105)
         elif alg_name == 'RANDOM':
             alg_des = 'random'
 

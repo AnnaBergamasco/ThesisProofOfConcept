@@ -17,3 +17,7 @@ RescueRobotPy/SmallExperiment3/__pycache__/BoxPlot.cpython-38.pyc
 UAVS/__pycache__/sim_launcher_uavs.cpython-38.pyc
 UAVS/__pycache__/SimulatorRunnerUAVS.cpython-38.pyc
 RescueRobotPy/SmallExperiment3/__pycache__/RadarPlotAlgorithms.cpython-38.pyc
+UAVS/Experiment2/__pycache__/BoxPlot.cpython-38.pyc
+UAVS/Experiment2/__pycache__/RadarPlotAlgorithms.cpython-38.pyc
+UAVS/Experiment2/__pycache__/RadarPlotSummary.cpython-38.pyc
+UAVS/Experiment2/__pycache__/RunSingleExperiment.cpython-38.pyc
