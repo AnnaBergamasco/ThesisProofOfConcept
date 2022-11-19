@@ -99,7 +99,7 @@ class RunSingleExperiment():
                 if s.__contains__("Average S0 sTrt S1 distance: "):
                     tokens = s.split(':')
                     result = float(tokens[1].replace(" ", ""))
-                    average_severities[0] = maximum_severities[0] + [-result]
+                    average_severities[0] = average_severities[0] + [-result]
                 if s.__contains__("Average S0 sTrt S21 distance: "):
                     tokens = s.split(':')
                     result = float(tokens[1].replace(" ", ""))
