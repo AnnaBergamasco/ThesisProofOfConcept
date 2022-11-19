@@ -1,6 +1,6 @@
 # RescueRobotPy
 
-This is the python implementation of the RescueRobot example, using both `JMetalPy` and `Pymoo`. Also, some experiments on the `Pymoo` implementation are included
+This is the python implementation of the RescueRobot example, using both `JMetalPy` and `Pymoo`. Also, some experiments on the `Pymoo` implementation are included.
 Here follow the explaination of the content.
 
 For the implementations to work mbt_module_dir has to be changed to the local directory of the `MBT-module` at line 11 of the `sim_launcher.py` file.
@@ -26,7 +26,7 @@ It also contains a main function that sets which algorithm to use and its parame
 
 To run the script install the `Pymoo` library (instructions at [https://pymoo.org/installation.html](https://pymoo.org/installation.html)) and then use the command:
 ```
-usage: RescueRobotPymoo.py [-h] [-a] [-f] [-s SIZE] [-n NITERATIONS] [-v] [-rf] alg
+usage: RescueRobotPymoo.py [-h] [-a] [-f] [-s SIZE] [-n NITERATIONS] [-v] [-o] alg
 
 Falsification with many-objective search.
 
@@ -49,7 +49,7 @@ optional arguments:
 
 Is a modified version of the laucher `mdp_simulator_launcher`: the only difference is that it returns the output so that it is possible to read the results.
 
-## SimulatorRunner
+## SimulatorRunner.py
 
 Defines a class used to run the simulation and parse the output to obtain the results.
 
@@ -63,4 +63,4 @@ Contains the results of the second experiment concerning what algorithm is bette
 
 ## SmallExperiment3
 
-Contains the results of the second experiment concerning what algorithm is better suited to solve the RescueRobot problem using the severity of disequilibrium of each variable metrics.
+Contains the results of the third experiment concerning what algorithm is better suited to solve the RescueRobot problem using the severity of disequilibrium of each variable metrics.

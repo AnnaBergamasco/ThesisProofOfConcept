@@ -1,7 +1,7 @@
-# SmallExperiment3
+# Experiment2
 
-This is the third experiment of the SmallExperiment serie on the `Pymoo` implementation of the search program. Its goal is to measure the goodness of the results provided by different many-objective algorithms. 
-Each execution is of the search is run using the fast mode and the var-wise fitness mode; the experiment is repeated 20 times for each algorithm, using a population size of 30 and a number of generations of 30. The metrics used are 12 for each execution: the maximum and average severity of equilibrium violation of each variable, computed by the inversion of signs and min-max scaling of the minimum and average values of the 6 variables. This metrics of each algorithm are then collected in intervals for a clearer comparison between algorithms and a better graphical representation (radar plot).
+This is the second experiment on the UAVS problem implementation. Its goal is to measure the goodness of the results provided by different many-objective algorithms. 
+Each execution is of the search is run using the fast mode and the var-wise fitness mode; the experiment is repeated 20 times for each algorithm, using a population size of 120 and a number of generations of 30. The metrics used are 28 for each execution: the maximum and average severity of equilibrium violation of each variable, computed by the inversion of signs and min-max scaling of the minimum and average values of the 14 variables. This metrics of each algorithm are then collected in intervals for a clearer comparison between algorithms and a better graphical representation (radar plot).
 
 The material, code and results of the experiment are divided in the following files.
 
@@ -25,7 +25,7 @@ The name of these files are of the type
 
 ## RunExperiment.py
 
-This is the code that runs all the experiments (by calling the `RunSingleExperiment.py`), computes the scaling and collects the 12 metrics. It also computes the extremes of two intervals for each variable: one containing the average values for that severity, the other containing the maximum values for that severity.
+This is the code that runs all the experiments (by calling the `RunSingleExperiment.py`), computes the scaling and collects the 28 metrics. It also computes the extremes of two intervals for each variable: one containing the average values for that severity, the other containing the maximum values for that severity.
 Finally, it also creates several plots to compare the results: a box plot for each variables comparing the maximum severities of the algorithms, a radar plot for each algorithm showing the intervals containing the maximum and average severities values and two summary radar plot comparing the total average and maximum severities of each algorithms.
 
 To run the script use the command: 
@@ -47,7 +47,7 @@ optional arguments:
 
 This is the script used by `RunExperiment.py` iteratively run the experiment on each algorithm. It also contributes to the computation of the metrics by changing the signs of the variables.
 
-To run this script separately follow the instructions to run the `RescueRobotPymoo.py` script, modify the conde at line 41 to have the correct path to the `RescueRobotPymoo.py` file and then run the following command:
+To run this script separately follow the instructions to run the `UAVS.py` script, modify the conde at line 41 to have the correct path to the `UAVS.py` file and then run the following command:
 
 ```
 usage: RunSingleExperiment.py [-h] alg
