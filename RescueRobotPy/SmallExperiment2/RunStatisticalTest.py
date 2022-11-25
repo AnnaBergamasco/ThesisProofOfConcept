@@ -1,7 +1,4 @@
-import sys
-sys.path.append('/home/RescueRobotGA/StatisticalEvaluation')
-
-from ...StatisticalEvaluation.StatisticalTest import StatisticalTest
+from StatisticalTest import StatisticalTest
 
 nsga = [48, 90, 12, 80, 86, 43, 32, 65, 21, 0, 118, 98, 108, 11, 59, 57, 17, 18, 33, 77]
 unsga = [37, 2, 95, 53, 38, 34, 77, 89, 80, 31, 69, 31, 19, 40, 68, 10, 36, 19, 66, 30]
