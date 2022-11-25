@@ -6,6 +6,7 @@ from RadarPlotAlgorithms import RadarPlotAlgorithms
 from RadarPlotSummary import RadarPlotSummary
 from BoxPlot import BoxPlotVariables
 import argparse
+from StatisticalTest import StatisticalTest
 
 def makeResultFile(alg_name, results) -> None:
 
@@ -153,6 +154,14 @@ def main():
     for i in range(0, 14):
         plot_scaled = BoxPlotVariables(nsga3_scaled[0][i], unsga3_scaled[0][i], agemoea_scaled[0][i], ctaea_scaled[0][i], moead_scaled[0][i], random_scaled[0][i])
         plot_scaled.makePlot()
+
+    sTest1 = StatisticalTest(nsga3_scaled[0][1], unsga3_scaled[0][1], agemoea_scaled[0][1], ctaea_scaled[0][1], moead_scaled[0][1], random_scaled[0][1])
+    sTest1.runTest('statistical_result_S0sTrtS21.txt')
+    sTest1.makeHeatmaps()
+
+    sTest2 = StatisticalTest(nsga3_scaled[0][12], unsga3_scaled[0][12], agemoea_scaled[0][12], ctaea_scaled[0][12], moead_scaled[0][12], random_scaled[0][12])
+    sTest2.runTest('statistical_result_S20sTrtS21.txt')
+    sTest2.makeHeatmaps()
 
     nsga3_summary = summarizeData(nsga3_scaled)
     plot_algorithms = RadarPlotAlgorithms(nsga3_summary[0], nsga3_summary[1], nsga3_summary[2], nsga3_summary[3])
