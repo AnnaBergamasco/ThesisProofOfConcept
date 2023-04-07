@@ -1,6 +1,28 @@
 from re import U
 from scipy.stats import mannwhitneyu
 import plotly.graph_objects as go
+import numpy as np
+import copy
+
+def makeStatisticalLegend(arr, dec) -> list:
+
+    statLeg = copy.deepcopy(arr)
+    for i in range(0, len(statLeg)):
+        for j in range(0, len(statLeg[i])):
+            if statLeg[i][j] == None:
+                statLeg[i][j] = 2.0
+    statLeg = np.around(statLeg, dec)
+    statLegString = []
+    for i in range(0, len(statLeg)):
+        statLegString.append([])
+        for j in range(0, len(statLeg[i])):
+            if statLeg[i][j] == 2.0:
+                statLegString[i].append(' ')
+            else:
+                statLegString[i].append(str(statLeg[i][j]))
+    return statLegString
+    
+
 
 class StatisticalTest():
 
@@ -350,7 +372,7 @@ class StatisticalTest():
                             y=['MOEA-D', 'CTAEA', 'AGE-MOEA', 'U-NSGA-3', 'NSGA-3'],
                             hoverongaps = False,
                             colorscale='Reds',
-                            text= self.pvalue_table,
+                            text= makeStatisticalLegend(self.pvalue_table, 3),
                             texttemplate="%{text}",
                             textfont={"size":20}))
         fig1.show()
@@ -361,7 +383,7 @@ class StatisticalTest():
                             y=['MOEA-D', 'C-TAEA', 'AGE-MOEA', 'U-NSGA-3', 'NSGA-3', 'RANDOM'],
                             hoverongaps = False,
                             colorscale='Reds',
-                            text=self.effect_table,
+                            text=makeStatisticalLegend(self.effect_table, 3),
                             texttemplate="%{text}",
                             textfont={"size":20}))
 
